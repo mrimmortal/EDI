@@ -34,13 +34,63 @@
 </div>
 
 <div>
-	<h4>
+<!-- 	<h4>
 		<pre>
 	<?php
 	print_r($formdata);	
 	?>
 	</pre>
-	</h4>
+	</h4> -->
+
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr class="table-success">
+        <th>No of Incidents</th>
+        <th>Status</th>
+      </tr>
+         <tr>
+        <th>Assignee</th>
+        <th>Resolved</th>
+        <th>Closed</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    	<?php
+    	$Total_Resolved=0;
+    	$Total_Close=0;
+    	$Total_Incident=0;
+    	
+    	foreach ($formdata as $row) 
+    	{   
+    		$Total_Resolved = $Total_Resolved + $row->Resolved;
+    		$Total_Close =$Total_Close + $row->Closed;
+    		$Total_Incident = $Total_Incident + $row->incident_count;
+    	?> 	 
+      <tr>
+        <td><?php echo $row->assigned_to; ?></td>
+        <td><?php echo $row->Resolved; ?></td>
+        <td><?php echo $row->Closed; ?></td>
+        <td><?php echo $row->incident_count; ?></td>
+      </tr>
+      <?php
+      }   
+      ?>   
+    </tbody>
+    <tfoot>
+    <tr>
+      <th class="table-success">Total</th>
+      <th> <?php echo $Total_Resolved; ?> </th>
+      <th> <?php echo $Total_Close; ?> </th>
+      <th> <?php echo $Total_Incident; ?> </th>
+    </tr>
+  </tfoot>
+  </table>
+</div>
+
+
 
 </div>
 
