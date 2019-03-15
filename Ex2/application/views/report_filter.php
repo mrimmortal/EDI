@@ -33,15 +33,15 @@
 	<a class="btn btn-primary"href="<?php echo base_url()."Report/index";?>">Genrate Report</a> -->
 </div>
 
-<div>
-<!-- 	<h4>
+
+<!--  	<h4>
 		<pre>
 	<?php
 	print_r($formdata);	
 	?>
 	</pre>
-	</h4> -->
-
+	</h4> 
+ -->
 
 <div class="container">
   <table class="table">
@@ -62,7 +62,7 @@
     	$Total_Resolved=0;
     	$Total_Close=0;
     	$Total_Incident=0;
-    	
+
     	foreach ($formdata as $row) 
     	{   
     		$Total_Resolved = $Total_Resolved + $row->Resolved;
@@ -91,8 +91,41 @@
 </div>
 
 
-
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr class="table-success">
+        <th>Row Labels</th>
+        <th>Average of MTTR</th>
+    </thead>
+    <tbody>
+      <?php
+    	$Grand_Total=0;
+    	foreach ($formdata as $row) 
+    	{   
+    		$Grand_Total = $Grand_Total + $row->Avg_mmtr;
+    	
+    	?> 	 
+      <tr>
+        <td><?php echo $row->assigned_to; ?></td>
+        <td><?php echo $row->Avg_mmtr; ?></td>
+       
+      </tr>
+      <?php
+      }   
+      ?>   
+     
+    </tbody>
+    <tfoot>
+    <tr>
+      <th class="table-success">Grand Total</th>
+       <th ><?php echo $Grand_Total; ?></th>
+    </tr>
+  </tfoot>
+  </table>
 </div>
+
+
 
 </body>
 
