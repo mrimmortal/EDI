@@ -25,5 +25,7 @@ class Report extends CI_Controller
     $data['formdata']=$this->Report_data_model->get_Report_Data($formdata);
     $this->load->view('report_filter',$data);
   }
+
+
 }
 ?>

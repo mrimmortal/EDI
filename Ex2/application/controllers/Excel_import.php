@@ -121,7 +121,7 @@ class Excel_import extends CI_Controller
         'sla' =>$sla,
         'mttr' =>$this->cal_mttr($updated_time,$logged_time),
         'new' =>$this->cal_new($logged_time),
-        'workflow_error' => $workflow_error,
+        'workflow_error' => $this->cal_workflow_error_incident_list($sla),//$workflow_error,
         'age_old' =>$this->cal_age_old($logged_time),
         'bucket_age' =>$this->cal_bucket_age_incident_list($this->cal_age_old($logged_time))
       );
@@ -246,6 +246,18 @@ public function cal_bucket_age_sr_list($age)
   if($age<=15){return "0-15 days";}
 // echo $age;
 // exit();
+}
+
+public function cal_workflow_error_incident_list($sla)
+{
+  if(trim($sla)=="9/5 Support")
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 }
 

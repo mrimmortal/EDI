@@ -20,11 +20,10 @@
 			<form action="<?php echo base_url()."Report/genrate_Report";?>" method="post">
 				<input id="reportrange" type="text" name="daterange" class="fa fa-calendar" style="width: 100%"></input>
 				
-				<input  id="startdate" type="text" name="1" class="fa fa-calendar invisible" style="width: 100%" ></input>
+				<input  id="startdate" type="text" name="start_date" class="fa fa-calendar invisible" style="width: 100%" ></input>
 			
-				<input  id="enddate" type="text" name="2" class="fa fa-calendar invisible" style="width: 100%" ></input>
+				<input  id="enddate" type="text" name="end_date" class="fa fa-calendar invisible" style="width: 100%" ></input>
 				<!-- <span></span> <i class="fa fa-caret-down"></i> -->
-				
 				<div align="center">
 					<button class="btn btn-primary" type="submit" >Genrate Report</button>
 				</div>
@@ -36,9 +35,11 @@
 
 <div>
 	<h4>
+		<pre>
 	<?php
 	print_r($formdata);	
 	?>
+	</pre>
 	</h4>
 
 </div>
@@ -55,8 +56,6 @@
 			// $('#reportrange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 			//document.getElementById('startdate').value = start.format('DD/MM/YYYY');
 			//document.getElementById('enddate').value = end.format('DD/MM/YYYY');
-			
-
 			$('#startdate').val(start.format('MMMM D, YYYY'));
 			$('#enddate').val(end.format('MMMM D, YYYY'));
 
@@ -75,9 +74,12 @@
 			}
 		}, cb);
 
-
 		cb(start, end);
 	});
+
+
+
+
 
 </script>
 
