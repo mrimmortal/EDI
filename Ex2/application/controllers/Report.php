@@ -22,10 +22,9 @@ class Report extends CI_Controller
   public function genrate_Report()
   {
     $formdata=$this->input->post(); 
-    $data['formdata']=$this->Report_data_model->get_Report_Data($formdata);
+    $data['insident_pivot_data']=$this->Report_data_model->get_Insident_Report_Data($formdata);
+    $data['sr_pivot_data']=$this->Report_data_model->get_Sr_Report_Data($formdata);
     $this->load->view('report_filter',$data);
   }
-
-
 }
 ?>
