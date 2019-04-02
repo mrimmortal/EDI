@@ -16,6 +16,8 @@ class Report extends CI_Controller
     // // echo $data->num_rows();
     // // exit();
     $data['formdata']="Empty";
+    $data['insident_pivot_data']= null;
+    $data['sr_pivot_data'] = null;
     $this->load->view('report_filter',$data);
   }
 
