@@ -76,6 +76,36 @@ class Report_data_model extends CI_Model
 	    	COUNT(case status when 'Resolved' then 1 else null end) AS Resolved,
 	    	COUNT(case resolution_violation when 'Yes'then 1 else null end) AS resolution_violation_yes,
 			COUNT(case resolution_violation when 'No' then 1 else null end) AS resolution_violation_no,
+
+
+			COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '15-50 days' then 1 else null end) As other_Team_15_50,
+			COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = '15-50 days' then 1 else null end) As user_response_awaited_15_50,
+			COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = '15-50 days' then 1 else null end) As vendor_dependency_15_50,
+			COUNT(case  when pending_reason ='In Progress' AND bucket_age = '15-50 days' then 1 else null end) As in_progress_15_50,
+			COUNT(case  when pending_reason ='Scheduled Ticket' AND bucket_age = '15-50 days' then 1 else null end) As scheduled_ticket_15_50,
+
+
+			COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '51-70 days' then 1 else null end) As other_Team_51_70,
+			COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = '51-70 days' then 1 else null end) As user_response_awaited_51_70,
+			COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = '51-70 days' then 1 else null end) As vendor_dependency_51_70,
+			COUNT(case  when pending_reason ='In Progress' AND bucket_age = '51-70 days' then 1 else null end) As in_progress_51_70,
+			COUNT(case  when pending_reason ='Scheduled Ticket' AND bucket_age = '51-70 days' then 1 else null end) As scheduled_ticket_51_70,
+
+
+			COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '71-90 days' then 1 else null end) As other_Team_71_90,
+			COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = '71-90 days' then 1 else null end) As user_response_awaited_71_90,
+			COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = '71-90 days' then 1 else null end) As vendor_dependency_71_90,
+			COUNT(case  when pending_reason ='In Progress' AND bucket_age = '71-90 days' then 1 else null end) As in_progress_71_90,
+			COUNT(case  when pending_reason ='Scheduled Ticket' AND bucket_age = '71-90 days' then 1 else null end) As scheduled_ticket_71_90,
+
+
+			COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = 'more than 90 days' then 1 else null end) As other_Team_90,
+			COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = 'more than 90 days' then 1 else null end) As user_response_awaited_90,
+			COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = 'more than 90 days' then 1 else null end) As vendor_dependency_90,
+			COUNT(case  when pending_reason ='In Progress' AND bucket_age = 'more than 90 days' then 1 else null end) As in_progress_90,
+			COUNT(case  when pending_reason ='Scheduled Ticket' AND bucket_age = 'more than 90 days' then 1 else null end) As scheduled_ticket_90,
+
+		
 	    	COUNT(sr_id) As sr_count FROM `sr_list` WHERE log_time >= '{$start}' AND updated_time <= '{$end}' GROUP BY `assigned_to` ASC;");
 			return $result=$query->result();
 	}

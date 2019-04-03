@@ -651,7 +651,206 @@
 				?>			
 			</table>
 		</div>
-		
+		<div class="col-lg-6">
+
+		</div>
+		<div class="col-lg-12"><!-- Row Labels,User Response Awaited,Grand Total -->
+			<table class="table border">
+				<thead>
+					<tr class="table-success">
+						<th>SR#</th>
+						<th>Pending</th>
+					</tr>
+					<tr class="table-success">
+						<th>Bucket Age</th>
+						<th>Other Team/Group Dependency</th>
+						<th>User Response Awaited</th>
+						<th>Vendor Dependency</th>
+						<th>In Progress</th>
+						<th>Scheduled Ticket</th>
+						<th>Total</th>
+					</tr>
+
+				</thead>
+				<tbody>
+					<?php
+
+					if($sr_pivot_data != null)
+					{
+						$other_Team_15_50 = 0;
+						$user_response_awaited_15_50 = 0;
+						$vendor_dependency_15_50 = 0;
+						$in_progress_15_50 = 0;
+						$scheduled_ticket_15_50 = 0;
+						$other_Team_51_70 = 0;
+						$user_response_awaited_51_70 = 0;
+						$vendor_dependency_51_70 = 0;
+						$in_progress_51_70 = 0;
+						$scheduled_ticket_51_70 = 0;
+						$other_Team_71_90 = 0;
+						$user_response_awaited_71_90 = 0;
+						$vendor_dependency_71_90 = 0;
+						$in_progress_71_90 = 0;
+						$scheduled_ticket_71_90 = 0;
+						$other_Team_90 = 0;
+						$user_response_awaited_90 = 0;
+						$vendor_dependency_90 = 0;
+						$in_progress_90 = 0;
+						$scheduled_ticket_90 = 0;
+
+						foreach ($sr_pivot_data as $row) 
+						{  
+							$other_Team_15_50 = $other_Team_15_50 + $row->other_Team_15_50;
+							$user_response_awaited_15_50 = $user_response_awaited_15_50 + $row->user_response_awaited_15_50;
+							$vendor_dependency_15_50 = $vendor_dependency_15_50 + $row->vendor_dependency_15_50;
+							$in_progress_15_50 = $in_progress_15_50 + $row->in_progress_15_50;
+							$scheduled_ticket_15_50 = $scheduled_ticket_15_50 + $row->scheduled_ticket_15_50;
+
+							$other_Team_51_70 = $other_Team_51_70 + $row->other_Team_51_70;
+							$user_response_awaited_51_70 = $user_response_awaited_51_70 + $row->user_response_awaited_51_70;
+							$vendor_dependency_51_70 = $vendor_dependency_51_70 + $row->vendor_dependency_51_70;
+							$in_progress_51_70 = $in_progress_51_70 + $row->in_progress_51_70;
+							$scheduled_ticket_51_70 = $scheduled_ticket_51_70 + $row->scheduled_ticket_51_70;
+
+							$other_Team_71_90 = $other_Team_71_90 + $row->other_Team_71_90;
+							$user_response_awaited_71_90 = $user_response_awaited_71_90 + $row->user_response_awaited_71_90;
+							$vendor_dependency_71_90 = $vendor_dependency_71_90 + $row->vendor_dependency_71_90;
+							$in_progress_71_90 = $in_progress_71_90 + $row->in_progress_71_90;
+							$scheduled_ticket_71_90 = $scheduled_ticket_71_90 + $row->scheduled_ticket_71_90;
+
+							$other_Team_90 = $other_Team_90 + $row->other_Team_90;
+							$user_response_awaited_90 = $user_response_awaited_90 + $row->user_response_awaited_90;
+							$vendor_dependency_90 = $vendor_dependency_90 + $row->vendor_dependency_90;
+							$in_progress_90 = $in_progress_90 + $row->in_progress_90;
+							$scheduled_ticket_90 = $scheduled_ticket_90 + $row->scheduled_ticket_90;
+						}   
+						?>   
+						<tr>
+							<td>15-50 days</td>
+							<td><?php echo $other_Team_15_50;?></td>
+							<td><?php echo $user_response_awaited_15_50;?></td>
+							<td><?php echo $vendor_dependency_15_50;?></td>  
+							<td><?php echo $in_progress_15_50;?></td>  
+							<td><?php echo $scheduled_ticket_15_50;?></td>
+
+							<td><?php echo $scheduled_ticket_15_50 
+							+ $other_Team_15_50 
+							+ $user_response_awaited_15_50 
+							+ $vendor_dependency_15_50 
+							+ $in_progress_15_50; ?></td>  
+
+						</tr>
+						<tr>
+							<td>51-70 days</td>
+							<td><?php echo $other_Team_51_70;?></td>
+							<td><?php echo $user_response_awaited_51_70;?></td>
+							<td><?php echo $vendor_dependency_51_70;?></td>  
+							<td><?php echo $in_progress_51_70;?></td>  
+							<td><?php echo $scheduled_ticket_51_70;?></td>
+
+							<td><?php echo $scheduled_ticket_51_70 
+							+ $other_Team_51_70 
+							+ $user_response_awaited_51_70 
+							+ $vendor_dependency_51_70 
+							+ $in_progress_51_70; ?></td>  
+
+						</tr>
+						<tr>
+							<td>71-90 days</td>
+							<td><?php echo $other_Team_71_90;?></td>
+							<td><?php echo $user_response_awaited_71_90;?></td>
+							<td><?php echo $vendor_dependency_71_90;?></td>  
+							<td><?php echo $in_progress_71_90;?></td>  
+							<td><?php echo $scheduled_ticket_71_90;?></td>
+
+							<td><?php echo $scheduled_ticket_71_90 
+							+ $other_Team_71_90 
+							+ $user_response_awaited_71_90 
+							+ $vendor_dependency_71_90 
+							+ $in_progress_71_90; ?></td>       
+						</tr>
+						<tr>
+							<td>more than 90 days</td>
+							<td><?php echo $other_Team_90;?></td>
+							<td><?php echo $user_response_awaited_90;?></td>
+							<td><?php echo $vendor_dependency_90;?></td>  
+							<td><?php echo $in_progress_90;?></td>  
+							<td><?php echo $scheduled_ticket_90;?></td>
+
+							<td><?php echo $scheduled_ticket_90 
+							+ $other_Team_90 
+							+ $user_response_awaited_90 
+							+ $vendor_dependency_90 
+							+ $in_progress_90; ?></td>      
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th class="table-success">Total</th>
+							<th>
+								<?php echo $other_Team_15_50 
+								+ $other_Team_51_70
+								+ $other_Team_71_90
+								+ $other_Team_90 ;?>
+							</th>
+							<th>
+								<?php echo $user_response_awaited_15_50 
+								+ $user_response_awaited_51_70
+								+ $user_response_awaited_71_90
+								+ $user_response_awaited_90 ;?>
+							</th>
+							<th>
+								<?php echo $vendor_dependency_15_50 
+								+ $vendor_dependency_51_70
+								+ $vendor_dependency_71_90
+								+ $vendor_dependency_90 ;?>
+							</th>
+							<th>
+								<?php echo $in_progress_15_50 
+								+ $in_progress_51_70
+								+ $in_progress_71_90
+								+ $in_progress_90 ;?>
+							</th>
+							<th>
+								<?php echo $scheduled_ticket_15_50 
+								+ $scheduled_ticket_51_70
+								+ $scheduled_ticket_71_90
+								+ $scheduled_ticket_90 ;?>
+							</th>
+							<th>
+								<?php echo $scheduled_ticket_15_50 
+								+ $other_Team_15_50 
+								+ $user_response_awaited_15_50 
+								+ $vendor_dependency_15_50 
+								+ $in_progress_15_50
+								+ $scheduled_ticket_51_70 
+								+ $other_Team_51_70 
+								+ $user_response_awaited_51_70 
+								+ $vendor_dependency_51_70 
+								+ $in_progress_51_70
+								+ $scheduled_ticket_71_90 
+								+ $other_Team_71_90 
+								+ $user_response_awaited_71_90 
+								+ $vendor_dependency_71_90 
+								+ $in_progress_71_90
+								+ $scheduled_ticket_90 
+								+ $other_Team_90 
+								+ $user_response_awaited_90 
+								+ $vendor_dependency_90 
+								+ $in_progress_90; ?>
+							</th>						
+						</tr>
+					</tfoot>
+					<?php
+				}
+				?>				
+			</table>
+		</div>
+		<div class="col-lg-12">
+			<canvas id="ctx" width="700"></canvas>
+
+		</div>
+
 	</div>
 </div>
 
@@ -734,7 +933,7 @@ document.getElementById("defaultOpen").click();
 			{
 				label: "User Response Awaited",
 				backgroundColor: ["#3e95cd"],
-				data: [<?php echo $i_User_Responce_Waiting_count; ?>]
+				data: [<?php echo $i_User_Responce_Waiting_count;?>]
 			}
 			]
 		},
@@ -746,5 +945,68 @@ document.getElementById("defaultOpen").click();
 			}
 		}
 	});
+</script>
+
+<script>
+	var chart = new Chart(ctx, {
+		type: 'bar',
+		data: {
+labels: ['15-50 Days','51-70 Days','71-90 Days','more than 90 days'], // responsible for how many bars are gonna show on the chart
+// create 12 datasets, since we have 12 items
+// data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
+// put 0, if there is no data for the particular bar
+datasets: [{
+	label: 'Other Team/Group Dependency',
+	data: [<?php echo $other_Team_15_50;?>,
+	<?php echo $other_Team_51_70;?>,
+	<?php echo $other_Team_71_90;?>,
+	<?php echo $other_Team_90;?>],
+	backgroundColor: '#22aa99'
+}, {
+	label: 'User Response Awaited',
+	data: [<?php echo $user_response_awaited_15_50;?>,
+	<?php echo $user_response_awaited_51_70;?>,
+	<?php echo $user_response_awaited_71_90;?>,
+	<?php echo $user_response_awaited_90;?>],
+	backgroundColor: '#994499'
+}, {
+	label: 'Vendor Dependency',
+	data: [<?php echo $vendor_dependency_15_50;?>,
+	<?php echo $vendor_dependency_51_70;?>,
+	<?php echo $vendor_dependency_71_90;?>,
+	<?php echo $vendor_dependency_90;?>],
+	backgroundColor: '#316395'
+}, {
+	label: 'In Progress',
+	data: [<?php echo $in_progress_15_50;?>,
+	<?php echo $in_progress_51_70;?>,
+	<?php echo $in_progress_71_90;?>,
+	<?php echo $in_progress_90;?>],
+	backgroundColor: '#b82e2e'
+}, {
+	label: 'Scheduled Ticket',
+	data: [<?php echo $scheduled_ticket_15_50;?>,
+	<?php echo $scheduled_ticket_51_70;?>,
+	<?php echo $scheduled_ticket_71_90;?>,
+	<?php echo $scheduled_ticket_90;?>],
+	backgroundColor: '#66aa00'
+},]
+},
+
+options: {
+	responsive: false,
+	legend: {
+position: 'right' // place legend on the right side of chart
+},
+scales: {
+	xAxes: [{
+stacked: true // this should be set to make the bars stacked
+}],
+yAxes: [{
+stacked: true // this also..
+}]
+}
+}
+});
 </script>
 </html>
