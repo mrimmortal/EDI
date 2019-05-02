@@ -31,16 +31,54 @@ class Report_data_model extends CI_Model
 			// $this->db->order_by('logged_time','asc');
 			//  $query=$this->db->get();
 
-			 $query = $this->db->query("SELECT assigned_to,bucket_age,status,
+			 $query = $this->db->query("SELECT assigned_to,status,
 			 	AVG(mttr) AS Avg_mmtr,
+			 	
+			 	COUNT(case bucket_age when 'more than 9 days' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS bucket_age,
+
+			 	COUNT(case new when '1' then 1 else null end) AS New_Count,
 			 	COUNT(case status when 'Pending' then 1 else null end) AS Pending,
 			 	COUNT(case status when 'Closed' then 1 else null end) AS Closed,
 			 	COUNT(case status when 'In-Progress' then 1 else null end) AS In_Process,
 			 	COUNT(case status when 'Resolved' then 1 else null end) AS Resolved,
 			 	COUNT(case resolution_violation when 'Yes'then 1 else null end) AS resolution_violation_yes,
 			 	COUNT(case resolution_violation when 'No' then 1 else null end) AS resolution_violation_no,
+			 	COUNT(case workflow_error when '1' then 1 else null end) AS workflow_error_count,
 			 	COUNT(incident_id) As incident_count,
-			 	COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = 'more than 9 days' then 1 else null end) As User_Responce_Waiting FROM `incident_list` WHERE logged_time >= '{$start}' AND updated_time <= '{$end}' GROUP BY `assigned_to` ASC;");
+			 	
+
+			 	-- 3 days pending reasons
+			 	COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '3 days' then 1 else null end) As i3_days_other_team,
+			 	COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = '3 days' then 1 else null end) As i3_days_user_response,
+			 	COUNT(case  when pending_reason ='In Progress' AND bucket_age ='3 days' then 1 else null end) AS i3_days_in_progress,
+			 	COUNT(case  when pending_reason ='Under Observation' AND bucket_age = '3 days' then 1 else null end) As i3_days_under_observation,
+			 	COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = '3 days' then 1 else null end) As i3_days_vendor_dependency,
+
+			 	-- 4-6 days pending reasons
+			 	COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '4-6 days' then 1 else null end) As i4_6_days_other_team,
+			 	COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = '4-6 days' then 1 else null end) As i4_6_days_user_response,
+			 	COUNT(case  when pending_reason ='In Progress' AND bucket_age ='4-6 days' then 1 else null end) AS i4_6_days_in_progress,
+			 	COUNT(case  when pending_reason ='Under Observation' AND bucket_age = '4-6 days' then 1 else null end) As i4_6_days_under_observation,
+			 	COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = '4-6 days' then 1 else null end) As i4_6_days_vendor_dependency,
+
+
+			 	-- 7-9 days pending reasons
+			 	COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '7-9 days' then 1 else null end) As i7_9_days_other_team,
+			 	COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = '7-9 days' then 1 else null end) As i7_9_days_user_response,
+			 	COUNT(case  when pending_reason ='In Progress' AND bucket_age ='4-6 days' then 1 else null end) AS i7_9_days_in_progress,
+			 	COUNT(case  when pending_reason ='Under Observation' AND bucket_age = '7-9 days' then 1 else null end) As i7_9_days_under_observation,
+			 	COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = '7-9 days' then 1 else null end) As i7_9_days_vendor_dependency,
+			 	
+
+			 	-- more than 9 days pending reasons
+			 	COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = 'more than 9 days' then 1 else null end) As more_than_9_days_other_team,
+			 	COUNT(case  when pending_reason ='User Response Awaited' AND bucket_age = 'more than 9 days' then 1 else null end) As more_than_9_days_user_response,
+			 	COUNT(case  when pending_reason ='In Progress' AND bucket_age ='more than 9 days' then 1 else null end) AS more_than_9_days_in_progress,
+			 	COUNT(case  when pending_reason ='Under Observation' AND bucket_age = 'more than 9 days' then 1 else null end) As more_than_9_days_under_observation,
+			 	COUNT(case  when pending_reason ='Vendor Dependency' AND bucket_age = 'more than 9 days' then 1 else null end) As more_than_9_days_vendor_dependency
+			 	
+
+			 	FROM `incident_list` WHERE logged_time >= '{$start}' AND updated_time <= '{$end}' GROUP BY `assigned_to` ASC;");
 
 		  	// $query = $this->db->query(
   			// "SELECT FROM incident_list WHERE logged_time <= '{$start}' AND updated_time >= '{$end}'");
@@ -76,6 +114,7 @@ class Report_data_model extends CI_Model
 	    	COUNT(case status when 'Resolved' then 1 else null end) AS Resolved,
 	    	COUNT(case resolution_violation when 'Yes'then 1 else null end) AS resolution_violation_yes,
 			COUNT(case resolution_violation when 'No' then 1 else null end) AS resolution_violation_no,
+			COUNT(case new when '1' then 1 else null end) AS new_count,
 
 
 			COUNT(case  when pending_reason ='Other Team/Group Dependency' AND bucket_age = '15-50 days' then 1 else null end) As other_Team_15_50,
@@ -105,8 +144,19 @@ class Report_data_model extends CI_Model
 			COUNT(case  when pending_reason ='In Progress' AND bucket_age = 'more than 90 days' then 1 else null end) As in_progress_90,
 			COUNT(case  when pending_reason ='Scheduled Ticket' AND bucket_age = 'more than 90 days' then 1 else null end) As scheduled_ticket_90,
 
-		
-	    	COUNT(sr_id) As sr_count FROM `sr_list` WHERE log_time >= '{$start}' AND updated_time <= '{$end}' GROUP BY `assigned_to` ASC;");
+			-- count(case when priority ='EUC-Master Data' AND status='Pending' then 1 else null end) AS A,
+			-- count(case when priority ='EUC-Master Data' AND status='In-Progress' then 1 else null end) B,
+			-- (count(case when priority ='EUC-Master Data' AND status='Pending' then 1 else null end)) + (count(case when priority ='EUC-Master Data' AND status='In-Progress' then 1 else null end)) AS EUC_master_data_count,
+			
+			COUNT(case when priority ='EUC-Master Data' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS EUC_master_data_count,
+			COUNT(case when priority ='EUC-Minor EDI Map Change' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS EUC_minor_edi_map_change,
+			COUNT(case when priority ='EUC-New connection' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS EUC_new_connection,
+			COUNT(case when priority ='EUC-New customer setup' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS EUC_new_customer_setup,
+			COUNT(case when priority ='EUC-New EDI Map' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS EUC_new_edi_map,
+			COUNT(case when priority ='EUC-New vendor setup' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS EUC_new_vendor_setup,
+			COUNT(case when priority ='S4' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS Others,		
+	    	COUNT(sr_id) As sr_count 
+	    	FROM `sr_list` WHERE log_time >= '{$start}' AND updated_time <= '{$end}' GROUP BY `assigned_to` ASC;");
 			return $result=$query->result();
 	}
 	

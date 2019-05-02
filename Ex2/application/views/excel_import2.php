@@ -7,8 +7,14 @@
 </head>
 
 <body>
-	<h1>Excel Import</h1>
-	<?php
+
+<div class="card text-center">
+  <div class="card-header">
+    Excel Import
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Select Dump File</h5>
+<?php
 	echo form_open_multipart('Excel_import/import');
 	echo form_upload('file');
 	echo '<br/>';
@@ -17,7 +23,8 @@
 	?>		
 	<!-- <h4>Total data : <?php echo $table_data->num_rows(); ?></h4> -->
 	<br>
-	<br>
 	<a class="btn btn-primary"href="<?php echo base_url()."Report/index";?>">Genrate Report</a>
+  </div>
+</div>	
 </body>
 </html>

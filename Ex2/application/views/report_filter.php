@@ -12,22 +12,26 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('bootstrap/css/daterangepicker.css');?>" />
 
 	<style>
-
 		/* Style the tab */
 		.tab {
-			overflow: hidden;
+			float: left;
 			border: 1px solid #ccc;
 			background-color: #f1f1f1;
+			width: 9%;
+			height: 300px;
 		}
 
 		/* Style the buttons inside the tab */
 		.tab button {
+			display: block;
 			background-color: inherit;
-			float: left;
+			color: black;
+			padding: 22px 16px;
+			width: 100%;
 			border: none;
 			outline: none;
+			text-align: left;
 			cursor: pointer;
-			padding: 14px 16px;
 			transition: 0.3s;
 			font-size: 17px;
 		}
@@ -37,22 +41,22 @@
 			background-color: #ddd;
 		}
 
-		/* Create an active/current tablink class */
+		/* Create an active/current "tab button" class */
 		.tab button.active {
 			background-color: #ccc;
 		}
 
 		/* Style the tab content */
 		.tabcontent {
-			display: none;
-			padding: 6px 12px;
-			border: 1px solid #ccc;
-			border-top: none;
+			float: left;
+			padding: 0px 12px;
+			width: 91%;
+			border-left:none;
+			height: 500px;
+			overflow-y:scroll;
 		}
 	</style>
-
 </head>
-
 <body>
 
 
@@ -60,7 +64,7 @@
 		<br>
 		<div align="left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 17%">
 			<form action="<?php echo base_url()."Report/genrate_Report";?>" method="post">
-				<input id="reportrange" type="text" name="daterange" class="fa fa-calendar" style="width: 100%"></input>
+				<input id="reportrange" id="a" type="text" name="daterange" class="fa fa-calendar" style="width: 100%"></input>
 
 				<input  id="startdate" type="text" name="start_date" class="fa fa-calendar invisible" style="width: 100%" ></input>
 
@@ -75,28 +79,44 @@
 	<a class="btn btn-primary"href="<?php echo base_url()."Report/index";?>">Genrate Report</a> -->
 </div>
 
-<pre>
-	<?php
 
-	if($sr_pivot_data != null)
-	{
-		print_r($sr_pivot_data);
-	}
-
-	?>
+ <pre>
+<?php
+if($sr_pivot_data != null)
+{
+print_r($sr_pivot_data);
+}
+?>
 </pre>
 
 
+<div class="row">
+	<div class="col-lg-12">
+	</br>
+
+	<h5 align="center">
+
+		<?php
+		if($start_date!= null && $end_date!= null)
+		{
+			echo "Report From ".$start_date." To ".$end_date;
+		}
+		?>
+	</h5>
+</br>
+</div>
+</div>
+
 <div class="tab">
-	<button class="tablinks" onclick="openCity(event,'Incident_pivot')" id="defaultOpen">Incident Pivot</button>
-	<button class="tablinks" onclick="openCity(event,'Sr_pivot')">SR Pivot</button>
-	<button class="tablinks" onclick="openCity(event,'Trend_data')">Trend Data</button>
-	<button class="tablinks" onclick="openCity(event,'Report')">Report</button>
+	<button class="tablinks btn btn-primary" onclick="openCity(event,'Incident_pivot')" id="defaultOpen">Incident Pivot</button>
+	<button class="btn btn-primary tablinks" onclick="openCity(event,'Sr_pivot')">SR Pivot</button>
+	<button class="btn btn-primary tablinks" onclick="openCity(event,'Report')">Report</button>
+	<button class="btn btn-primary tablinks" onclick="openCity(event,'Trend_data')">Trend Data</button>
 </div>
 
 <div id="Incident_pivot" class="tabcontent">
 	<div class="row">
-		<div class="col-lg-6"> <!-- Assignee,Resolved,Closed,Total -->
+		<div class="col-lg-auto"> <!-- Assignee,Resolved,Closed,Total -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -112,16 +132,18 @@
 				</thead>
 				<tbody>
 					<?php
-					if($insident_pivot_data){
+					if($insident_pivot_data)
+					{
 						$i_Total_Resolved=0;
 						$i_Total_Close=0;
-						$i_Total_Incident=0;
+						$i_Total_R_C_Incident=0;
+						$i_New_incident=0;
 
 						foreach ($insident_pivot_data as $row) 
 						{   
 							$i_Total_Resolved = $i_Total_Resolved + $row->Resolved;
 							$i_Total_Close = $i_Total_Close + $row->Closed;
-							$i_Total_Incident = $i_Total_Incident + $row->incident_count;
+							$i_New_incident = $i_New_incident +$row->New_Count;
 							?> 	 
 							<tr>
 								<td><?php echo $row->assigned_to; ?></td>
@@ -138,7 +160,7 @@
 							<th class="table-success">Total</th>
 							<th> <?php echo $i_Total_Resolved; ?> </th>
 							<th> <?php echo $i_Total_Close; ?> </th>
-							<th> <?php echo $i_Total_Incident; ?> </th>
+							<th> <?php echo $i_Total_R_C_Incident = $i_Total_Close + $i_Total_Resolved; ?> </th>
 						</tr>
 					</tfoot>
 					<?php
@@ -146,7 +168,7 @@
 				?>
 			</table>
 		</div>
-		<div class="col-lg-6"> <!-- Row Labels,Average of MTTR -->
+		<div class="col-lg-auto"> <!-- Row Labels,Average of MTTR -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -173,7 +195,7 @@
 					<tfoot>
 						<tr>
 							<th class="table-success">Grand Total</th>
-							<th ><?php echo round($i_avg_mmtr_Grand_Total,2); ?></th>
+							<th ><?php echo round($i_avg_mmtr_Grand_Total,2);?></th>
 						</tr>
 					</tfoot>
 					<?php
@@ -181,7 +203,7 @@
 				?>
 			</table>
 		</div>
-		<div class="col-lg-6"> <!-- Status,Open -->
+		<div class="col-lg-auto"> <!-- Status,Open -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -212,7 +234,7 @@
 				?>				
 			</table>
 		</div>
-		<div class="col-lg-6"><!-- Status,Count -->
+		<div class="col-lg-auto"><!-- Status,Count -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -257,53 +279,8 @@
 				}
 				?>			
 			</table>
-		</div>
-		<div class="col-lg-6"><!-- Row Labels,User Response Awaited,Grand Total -->
-			<table class="table border">
-				<thead>
-					<tr class="table-success">
-						<th>Count of Incident ID</th>
-						<th>Column Labels</th>
-					</tr>
-					<tr class="table-success">
-						<th>Row Labels</th>
-						<th>User Response Awaited</th>
-						<th>Grand Total</th>
-					</tr>
-
-				</thead>
-				<tbody>
-					<?php
-					if($insident_pivot_data != null){
-						$i_User_Responce_Waiting_count = 0;
-						foreach ($insident_pivot_data as $row) 
-						{  
-							$i_User_Responce_Waiting_count = $i_User_Responce_Waiting_count + $row->User_Responce_Waiting;
-						}   
-						?>   
-						<tr>
-							<td>More than 9 days</td>
-							<td><?php echo $i_User_Responce_Waiting_count;?></td>
-							<td><?php echo $i_User_Responce_Waiting_count;?></td>       
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<th class="table-success">Grand Total</th>
-							<th>
-								<?php echo $i_User_Responce_Waiting_count; ?>
-							</th>
-							<th>
-								<?php echo $i_User_Responce_Waiting_count; ?>
-							</th>
-						</tr>
-					</tfoot>
-					<?php
-				}
-				?>				
-			</table>
-		</div>
-		<div class="col-lg-6"><!-- Row Lables,Count of Incident ID -->
+		</div>		
+		<div class="col-lg-auto"><!-- Row Lables,Count of Incident ID -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -324,7 +301,7 @@
 						{  
 							$i_yes_Total = $i_yes_Total + $row->resolution_violation_yes;
 							$i_no_Total = $i_no_Total + $row->resolution_violation_no;
-							$incident_total = $incident_total + $row->incident_count;
+							$incident_total = $i_yes_Total + $i_no_Total;
 						}   
 						?>   
 						<tr>
@@ -357,15 +334,203 @@
 				?>			
 			</table>
 		</div>
-		<div class="col-lg-6">	
+		<div class="col-lg-auto"><!-- Row Labels,User Response Awaited,Grand Total -->
+			<table class="table border">
+				<thead>
+					<tr class="table-success">
+						<th>Count of Incident ID</th>
+						<th>Column Labels</th>
+					</tr>
+					<tr class="table-success">
+						<th>Row Labels</th>
+						<th>Other Team/Group Dependency</th>						
+						<th>User Response Awaited</th>
+						<th>In Progress</th>
+						<th>Under Observation</th>
+						<th>Vendor Dependency</th>
+						<th>Grand Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					if($insident_pivot_data != null)
+					{
+						$i3_days_other_team = 0;
+						$i3_days_user_response = 0;
+						$i3_days_in_progress = 0;
+						$i3_days_under_observation = 0;
+						$i3_days_vendor_dependency = 0;
+
+						$i4_6_days_other_team = 0;
+						$i4_6_days_user_response = 0;
+						$i4_6_days_in_progress = 0;
+						$i4_6_days_under_observation = 0;
+						$i4_6_days_vendor_dependency = 0;
+						
+						$i7_9_days_other_team = 0;
+						$i7_9_days_user_response = 0;
+						$i7_9_days_in_progress = 0;
+						$i7_9_days_under_observation = 0;
+						$i7_9_days_vendor_dependency = 0;
+
+						$more_than_9_days_other_team = 0;
+						$more_than_9_days_user_response = 0;
+						$more_than_9_days_in_progress = 0;
+						$more_than_9_days_under_observation = 0;
+						$more_than_9_days_vendor_dependency = 0;
+
+						foreach ($insident_pivot_data as $row) 
+						{  
+							$i3_days_other_team = $i3_days_other_team + $row->i3_days_other_team;
+							$i3_days_user_response = $i3_days_user_response + $row->i3_days_user_response;
+							$i3_days_in_progress = $i3_days_in_progress + $row->i3_days_in_progress;
+							$i3_days_under_observation = $i3_days_under_observation + $row->i3_days_under_observation;
+							$i3_days_vendor_dependency = $i3_days_vendor_dependency + $row->i3_days_vendor_dependency;
+
+							$i4_6_days_other_team = $i4_6_days_other_team + $row->i4_6_days_other_team;
+							$i4_6_days_user_response = $i4_6_days_user_response + $row->i4_6_days_user_response;
+							$i4_6_days_in_progress = $i4_6_days_in_progress + $row->i4_6_days_in_progress;
+							$i4_6_days_under_observation = $i4_6_days_under_observation + $row->i4_6_days_under_observation;
+							$i4_6_days_vendor_dependency = $i4_6_days_vendor_dependency + $row->i4_6_days_vendor_dependency;
+
+							$i7_9_days_other_team = $i7_9_days_other_team + $row->i7_9_days_other_team;
+							$i7_9_days_user_response = $i7_9_days_user_response + $row->i7_9_days_user_response;
+							$i7_9_days_in_progress = $i7_9_days_in_progress + $row->i7_9_days_in_progress;
+							$i7_9_days_under_observation = $i7_9_days_under_observation + $row->i7_9_days_under_observation;
+							$i7_9_days_vendor_dependency = $i7_9_days_vendor_dependency + $row->i7_9_days_vendor_dependency;
+
+							$more_than_9_days_other_team = $more_than_9_days_other_team + $row->more_than_9_days_other_team;
+							$more_than_9_days_user_response = $more_than_9_days_user_response + $row->more_than_9_days_user_response;
+							$more_than_9_days_in_progress = $more_than_9_days_in_progress + $row->more_than_9_days_in_progress;
+							$more_than_9_days_under_observation = $more_than_9_days_under_observation + $row->more_than_9_days_under_observation;
+							$more_than_9_days_vendor_dependency = $more_than_9_days_vendor_dependency + $row->more_than_9_days_vendor_dependency;
+						}   
+
+						?>  
+						 <tr>
+						 	<td>3 Days</td>
+						 	<td><?php echo $i3_days_other_team; ?></td>
+						 	<td><?php echo $i3_days_user_response; ?></td>
+						 	<td><?php echo $i3_days_in_progress; ?></td>
+						 	<td><?php echo $i3_days_under_observation; ?></td>
+						 	<td><?php echo $i3_days_vendor_dependency; ?></td>
+						 	<td><?php echo $i3_days_other_team+
+						 				   $i3_days_user_response+
+						 				   $i3_days_in_progress+
+						 				   $i3_days_under_observation+
+						 				   $i3_days_vendor_dependency; ?></td>
+						 </tr>
+						 <tr>
+						 	<td>4-6 Days</td>
+						 	<td><?php echo $i4_6_days_other_team; ?></td>
+						 	<td><?php echo $i4_6_days_user_response; ?></td>
+						 	<td><?php echo $i4_6_days_in_progress; ?></td>
+						 	<td><?php echo $i4_6_days_under_observation; ?></td>
+						 	<td><?php echo $i4_6_days_vendor_dependency; ?></td>
+						 	<td><?php echo $i4_6_days_other_team+
+						 				   $i4_6_days_user_response+
+						 				   $i4_6_days_in_progress+
+						 				   $i4_6_days_under_observation+
+						 				   $i4_6_days_vendor_dependency; ?></td>
+						 </tr>
+						 <tr>
+						 	<td>7-9 Days</td>
+						 	<td><?php echo $i7_9_days_other_team; ?></td>
+						 	<td><?php echo $i7_9_days_user_response; ?></td>
+						 	<td><?php echo $i7_9_days_in_progress; ?></td>
+						 	<td><?php echo $i7_9_days_under_observation; ?></td>
+						 	<td><?php echo $i7_9_days_vendor_dependency; ?></td>
+						 	<td><?php echo $i7_9_days_other_team+
+						 				   $i7_9_days_user_response+
+						 				   $i7_9_days_in_progress+
+						 				   $i7_9_days_under_observation+
+						 				   $i7_9_days_vendor_dependency; ?></td>
+						 </tr>
+						<tr>
+							<td>More than 9 days</td>
+							<td><?php echo $more_than_9_days_other_team; ?></td>
+							<td><?php echo $more_than_9_days_user_response; ?></td>
+							<td><?php echo $more_than_9_days_in_progress; ?></td>
+							<td><?php echo $more_than_9_days_under_observation; ?></td>  
+							<td><?php echo $more_than_9_days_vendor_dependency; ?></td>
+							<td><?php echo $more_than_9_days_other_team+
+										   $more_than_9_days_user_response+
+										   $more_than_9_days_in_progress+
+										   $more_than_9_days_under_observation+
+										   $more_than_9_days_vendor_dependency; ?></td>         
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th class="table-success">Grand Total</th>
+							<th>
+								<?php echo $i3_days_other_team+
+											$i4_6_days_other_team+
+											$i7_9_days_other_team+
+											$more_than_9_days_other_team; ?>
+							</th>
+							<th>
+								<?php echo $i3_days_user_response+
+											$i4_6_days_user_response+
+											$i7_9_days_user_response+
+											$more_than_9_days_user_response; ?> 
+							</th>
+							<th>
+							 	<?php echo $i3_days_in_progress+
+							 				$i4_6_days_in_progress+
+							 				$i7_9_days_in_progress+
+							 				$more_than_9_days_in_progress; ?>
+							</th>
+							<th>
+								<?php echo $i3_days_under_observation+
+											$i4_6_days_under_observation+
+											$i7_9_days_under_observation+
+											$more_than_9_days_under_observation; ?>
+							</th>
+							<th>
+								<?php echo $i3_days_vendor_dependency+
+											$i4_6_days_vendor_dependency+
+											$i7_9_days_vendor_dependency+
+											$more_than_9_days_vendor_dependency; ?>
+							</th>
+							<th>
+								<?php echo $i3_days_other_team+
+											$i4_6_days_other_team+
+											$i7_9_days_other_team+
+											$more_than_9_days_other_team+
+											$i3_days_user_response+
+											$i4_6_days_user_response+
+											$i7_9_days_user_response+
+											$more_than_9_days_user_response+
+											$i3_days_in_progress+
+							 				$i4_6_days_in_progress+
+							 				$i7_9_days_in_progress+
+							 				$more_than_9_days_in_progress+
+							 				$i3_days_under_observation+
+											$i4_6_days_under_observation+
+											$i7_9_days_under_observation+
+											$more_than_9_days_under_observation+
+											$i3_days_vendor_dependency+
+											$i4_6_days_vendor_dependency+
+											$i7_9_days_vendor_dependency+
+											$more_than_9_days_vendor_dependency; ?>
+							</th>
+
+						</tr>
+					</tfoot>
+					<?php
+				}
+				?>				
+			</table>
+		</div>
+		<div class="col-lg-auto">	
 			<canvas id="bar-chart" width="800" height="450"></canvas>
 		</div>
 	</div>
-</div>	
-
+</div>
 <div id="Sr_pivot" class="tabcontent">
 	<div class="row">
-		<div class="col-lg-6"> <!-- Assignee,Closed,Resolved,Total -->
+		<div class="col-lg-auto"> <!-- Assignee,Closed,Resolved,Total -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -390,13 +555,13 @@
 						{   
 							$sr_Total_Resolved = $sr_Total_Resolved + $row->Resolved;
 							$sr_Total_Close = $sr_Total_Close + $row->Closed;
-							$sr_Total_sr = $sr_Total_sr + $row->sr_count;
+							$sr_Total_sr = $sr_Total_Resolved + $sr_Total_Close;
 							?> 	 
 							<tr>
 								<td><?php echo $row->assigned_to; ?></td>
 								<td><?php echo $row->Closed; ?></td>
 								<td><?php echo $row->Resolved; ?></td>
-								<td><?php echo $row->sr_count; ?></td>
+								<td><?php echo $row->Closed + $row->Resolved; ?></td>
 							</tr>
 							<?php
 						}   
@@ -415,7 +580,7 @@
 				?>
 			</table>
 		</div>
-		<div class="col-lg-6"> <!-- Row Labels,Average of MTTR -->
+		<div class="col-lg-auto"> <!-- Row Labels,Average of MTTR -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -450,7 +615,7 @@
 				?>
 			</table>
 		</div>
-		<div class="col-lg-6"> <!-- Consultant,Count of SR ID (In_Process, Pending)-->
+		<div class="col-lg-auto"> <!-- Consultant,Count of SR ID (In_Process, Pending)-->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -485,7 +650,7 @@
 				?>
 			</table>
 		</div>
-		<div class="col-lg-6"> <!-- Consultant,Count of SR ID (Closed, Resolved) -->
+		<div class="col-lg-auto"> <!-- Consultant,Count of SR ID (Closed, Resolved) -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -520,7 +685,7 @@
 				?>
 			</table>
 		</div>
-		<div class="col-lg-6"> <!-- Status,Open -->
+		<div class="col-lg-auto"> <!-- Status,Open -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -551,7 +716,7 @@
 				?>				
 			</table>
 		</div>
-		<div class="col-lg-6"><!-- Row Lables,Count of SR ID -->
+		<div class="col-lg-auto"><!-- Row Lables,Count of SR ID -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -572,7 +737,7 @@
 						{  
 							$sr_yes_Total = $sr_yes_Total + $row->resolution_violation_yes;
 							$sr_no_Total = $sr_no_Total + $row->resolution_violation_no;
-							$sr_total = $sr_total + $row->sr_count;
+							$sr_total = $sr_yes_Total + $sr_no_Total;
 						}   
 						?>   
 						<tr>
@@ -605,7 +770,7 @@
 				?>			
 			</table>
 		</div>
-		<div class="col-lg-6"><!-- Status,Count -->
+		<div class="col-lg-auto"><!-- Status,Count -->
 			<table class="table border">
 				<thead>
 					<tr class="table-success">
@@ -651,8 +816,97 @@
 				?>			
 			</table>
 		</div>
-		<div class="col-lg-6">
-
+		<div class="col-lg-auto"><!-- Category,SR Count (Pending And In-Progress) -->
+			<table class="table border">
+				<thead>
+					<tr class="table-success">
+						<th>Category</th>
+						<th>SR Count</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					if($sr_pivot_data != null)
+					{
+						$EUC_master_data_count = 0;
+						$EUC_minor_edi_map_change = 0;
+						$EUC_new_connection = 0;
+						$EUC_new_customer_setup = 0;
+						$EUC_new_edi_map = 0;
+						$EUC_new_vendor_setup = 0;
+						$Others = 0;
+						$sr_c_grand_Total = 0;
+						foreach ($sr_pivot_data as $row) 
+						{  
+							$EUC_master_data_count = $EUC_master_data_count + $row->EUC_master_data_count;
+							$EUC_minor_edi_map_change = $EUC_minor_edi_map_change + $row->EUC_minor_edi_map_change;
+							$EUC_new_connection = $EUC_new_connection + $row->EUC_new_connection;
+							$EUC_new_customer_setup = $EUC_new_customer_setup + $row->EUC_new_customer_setup;
+							$EUC_new_edi_map = $EUC_new_edi_map + $row->EUC_new_edi_map;
+							$EUC_new_vendor_setup = $EUC_new_vendor_setup + $row->EUC_new_vendor_setup;
+							$Others = $Others + $row->Others;						
+						}   
+						?>   
+						<tr>
+							<td>EUC-Master Data</td>
+							<td>
+								<?php echo $EUC_master_data_count; ?>
+							</td>
+						</tr>
+							<tr>
+							<td>EUC-Minor EDI Map Change</td>
+							<td>
+								<?php echo $EUC_minor_edi_map_change; ?>
+							</td>
+						</tr>
+						<tr>
+							<td>EUC-New connection</td>
+							<td>
+								<?php echo $EUC_new_connection; ?>
+						</td>
+						</tr>
+								<tr>
+							<td>EUC-New customer setup</td>
+							<td>
+								<?php echo $EUC_new_customer_setup; ?>
+							</td>
+						</tr>
+						<tr>
+						<td>EUC-New EDI Map</td>
+							<td>
+								<?php echo $EUC_new_edi_map; ?>
+							</td>
+						</tr>
+						<tr>
+						<td>EUC-New vendor setup</td>
+							<td>
+								<?php echo $EUC_new_vendor_setup; ?>
+							</td>
+						</tr>
+						<tr>
+						<td>Others</td>
+							<td>
+								<?php echo $Others; ?>
+							</td>
+						</tr>			
+					</tbody>		
+					<tfoot>
+						<tr>
+							<th class="table-success">Grand Total</th>
+							<th ><?php  echo $EUC_master_data_count+
+						$EUC_minor_edi_map_change +
+						$EUC_new_connection +
+						$EUC_new_customer_setup +
+						$EUC_new_edi_map +
+						$EUC_new_vendor_setup +
+						$Others; ?></th>
+						</tr>
+					</tfoot>
+					<?php
+				}
+				?>			
+			</table>
 		</div>
 		<div class="col-lg-12"><!-- Row Labels,User Response Awaited,Grand Total -->
 			<table class="table border">
@@ -788,37 +1042,48 @@
 						<tr>
 							<th class="table-success">Total</th>
 							<th>
-								<?php echo $other_Team_15_50 
+								<?php 
+								echo $other_Team_15_50 
 								+ $other_Team_51_70
 								+ $other_Team_71_90
-								+ $other_Team_90 ;?>
+								+ $other_Team_90 ;
+								?>
 							</th>
 							<th>
-								<?php echo $user_response_awaited_15_50 
+								<?php
+								echo $user_response_awaited_15_50 
 								+ $user_response_awaited_51_70
 								+ $user_response_awaited_71_90
-								+ $user_response_awaited_90 ;?>
+								+ $user_response_awaited_90 ;
+								?>
 							</th>
 							<th>
-								<?php echo $vendor_dependency_15_50 
+								<?php 
+								echo $vendor_dependency_15_50 
 								+ $vendor_dependency_51_70
 								+ $vendor_dependency_71_90
-								+ $vendor_dependency_90 ;?>
+								+ $vendor_dependency_90 ;
+								?>
 							</th>
 							<th>
-								<?php echo $in_progress_15_50 
+								<?php 
+								echo $in_progress_15_50 
 								+ $in_progress_51_70
 								+ $in_progress_71_90
-								+ $in_progress_90 ;?>
+								+ $in_progress_90 ;
+								?>
 							</th>
 							<th>
-								<?php echo $scheduled_ticket_15_50 
+								<?php 
+								echo $scheduled_ticket_15_50 
 								+ $scheduled_ticket_51_70
 								+ $scheduled_ticket_71_90
-								+ $scheduled_ticket_90 ;?>
+								+ $scheduled_ticket_90 ;
+								?>
 							</th>
 							<th>
-								<?php echo $scheduled_ticket_15_50 
+								<?php 
+								echo $scheduled_ticket_15_50 
 								+ $other_Team_15_50 
 								+ $user_response_awaited_15_50 
 								+ $vendor_dependency_15_50 
@@ -837,7 +1102,8 @@
 								+ $other_Team_90 
 								+ $user_response_awaited_90 
 								+ $vendor_dependency_90 
-								+ $in_progress_90; ?>
+								+ $in_progress_90; 
+								?>
 							</th>						
 						</tr>
 					</tfoot>
@@ -846,23 +1112,127 @@
 				?>				
 			</table>
 		</div>
-		<div class="col-lg-12">
+
+		<div class="col-lg-auto">
 			<canvas id="ctx" width="700"></canvas>
-
 		</div>
-
 	</div>
 </div>
+<div id="Report" class="tabcontent">
 
+	<div class="col-lg-auto"><!-- incidents Report Table -->
+		<table class="table border">
+			<thead>
+				<tr class="table-success">
+					<th class="center">Incidents</th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>						
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				if($insident_pivot_data != null)
+				{
+					$i_pending_Total = 0;
+					$i_in_process_Total = 0;
+					$i_Grand_Total = 0;
+					$i_Workflow_Error_Total = 0;
+					foreach ($insident_pivot_data as $row) 
+					{  
+						$i_pending_Total = $i_pending_Total + $row->Pending;
+						$i_in_process_Total = $i_in_process_Total + $row->In_Process;
+						$i_Workflow_Error_Total =$i_Workflow_Error_Total + $row->workflow_error_count;
+					}   
+					?>   
+					<tr>
+						<td><?php echo $i_New_incident; ?></td>							
+						<td><?php echo $i_Total_R_C_Incident; ?> </td>
+						<td><?php echo round($i_no_Total*100,0)."%"; ?></td>
+						<td><?php echo round($i_avg_mmtr_Grand_Total,2); ?></td>
+						<td><?php echo $open_Total; ?></td>
+						<td></td>
+						<td><?php echo $i_Workflow_Error_Total; ?> </td>
+
+					</tr>					
+				</tbody>		
+				<tfoot>
+					<tr>
+						<th class="table-success">New</th>
+						<th class="table-success">Resolved</th>
+						<th class="table-success">SLA</th>
+						<th class="table-success">MTTR(days)</th>
+						<th class="table-success">Open</th>
+						<th class="table-success">Backlog</th>
+						<th class="table-success">Workflow Errors</th>
+					</tr>
+				</tfoot>
+				<?php
+			}
+			?>			
+		</table>
+	</div>
+
+	<div class="col-lg-10"><!-- SR Report Table -->
+		<table class="table border">
+			<thead>
+				<tr class="table-success">
+					<th class="center">Service Request</th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>				
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				if($insident_pivot_data != null)
+				{
+					$i_pending_Total = 0;
+					$i_in_process_Total = 0;
+					$i_Grand_Total = 0;
+					$i_Workflow_Error_Total = 0;
+					foreach ($insident_pivot_data as $row) 
+					{  
+						$i_pending_Total = $i_pending_Total + $row->Pending;
+						$i_in_process_Total = $i_in_process_Total + $row->In_Process;
+						$i_Workflow_Error_Total =$i_Workflow_Error_Total + $row->workflow_error_count;
+					}   
+					?>   
+					<tr>
+						<td><?php echo $i_New_incident; ?></td>							
+						<td><?php echo $i_Total_R_C_Incident; ?> </td>
+						<td><?php echo round($i_no_Total*100,0)."%"; ?></td>
+						<td><?php echo round($i_avg_mmtr_Grand_Total,2); ?></td>
+						<td><?php echo $open_Total; ?></td>
+						<td></td>
+
+					</tr>					
+				</tbody>		
+				<tfoot>
+					<tr>
+						<th class="table-success">New</th>
+						<th class="table-success">Resolved</th>
+						<th class="table-success">SLA</th>
+						<th class="table-success">MTTR(days)</th>
+						<th class="table-success">Open</th>
+						<th class="table-success">Backlog</th>
+
+					</tr>
+				</tfoot>
+				<?php
+			}
+			?>			
+		</table>
+	</div>
+</div>
 <div id="Trend_data" class="tabcontent">
 	<h3>Trend Data</h3>
 </div>
-
-<div id="Report" class="tabcontent">
-	<h3>Report</h3>
-</div>
-
-
 <!-- <h4>
 <pre>
 <?php
@@ -886,7 +1256,6 @@ print_r($formdata);
 //document.getElementById('enddate').value = end.format('DD/MM/YYYY');
 $('#startdate').val(start.format('MMMM D, YYYY'));
 $('#enddate').val(end.format('MMMM D, YYYY'));
-
 }
 
 $('#reportrange').daterangepicker({
