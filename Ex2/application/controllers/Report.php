@@ -28,11 +28,11 @@ class Report extends CI_Controller
     $formdata=$this->input->post();
     // print_r($formdata);
     //  exit();
-  
     $data['start_date'] = $formdata['start_date'];
     $data['end_date'] = $formdata['end_date'];
     $data['insident_pivot_data']=$this->Report_data_model->get_Insident_Report_Data($formdata);
     $data['sr_pivot_data']=$this->Report_data_model->get_Sr_Report_Data($formdata);
+    $data['trend_data']=$this->Report_data_model->get_trend_data_rows();
     $this->load->view('report_filter',$data);
   }
 }

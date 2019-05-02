@@ -7,6 +7,7 @@ class Report_data_model extends CI_Model
    // $this->load->model('Report_data_model');
     $this->load->library('excel');
   }
+
 	public function get_Insident_Report_Data($formdata)
 	{
 		// $start = PHPExcel_Style_NumberFormat::toFormattedString($formdata['startdate'],"YYYY-M-D hh:mm:ss");
@@ -22,8 +23,6 @@ class Report_data_model extends CI_Model
 		$end = date_create($formdata['end_date']);
 		$end = date_format($end,"Y-m-d H:i:s");
 	    //exit();
-
-
 			// $this->db->select('*');
 			// $this->db->from('incident_list');
 		 //    $this->db->where('logged_time >=', $start);	
@@ -31,7 +30,53 @@ class Report_data_model extends CI_Model
 			// $this->db->order_by('logged_time','asc');
 			//  $query=$this->db->get();
 
-			 $query = $this->db->query("SELECT assigned_to,status,
+			return $this->insident_data($start,$end);
+	}
+
+	public function get_Sr_Report_Data($formdata)
+	{
+		$start = date_create($formdata['start_date']);
+		$start = date_format($start,"Y-m-d H:i:s");
+		//echo "</br>";
+
+		//echo $formdata['2'];
+		$end = date_create($formdata['end_date']);
+		$end = date_format($end,"Y-m-d H:i:s");
+	    //exit();
+
+	   return $this->sr_data($start,$end);
+	}
+
+	public function get_trend_data_rows()
+	{
+	$current_date=date("Y-m-d H:i:s");
+	echo "$current_date"."</br>";
+
+		  // First day of this month
+    $first_day_of_current_month = new DateTime('last day of this month');
+    // echo $first_day_of_current_month->format('jS, F Y')."</br>";
+    echo $s=date_format($first_day_of_current_month,"Y-m-d 00:00:00")."</br>";
+
+    
+
+    // // First day of a specific month
+    // $d = new DateTime('2010-01-19');
+    // $d->modify('first day of this month');
+    // echo $d->format('jS, F Y')."</br>";
+
+    // // alternatively...
+    // echo date_create('2010-01-19')
+    //   ->modify('first day of this month')
+    //   ->format('jS, F Y');
+
+		exit();
+	}
+
+
+	public function insident_data($start,$end)
+	{
+
+		 $query = $this->db->query("SELECT assigned_to,status,
 			 	AVG(mttr) AS Avg_mmtr,
 			 	
 			 	COUNT(case bucket_age when 'more than 9 days' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS bucket_age,
@@ -93,20 +138,12 @@ class Report_data_model extends CI_Model
 			// //print_r($result);
 			// echo "</pre>";
 			// exit();			
+
 	}
 
-	public function get_Sr_Report_Data($formdata)
+	public function sr_data($start,$end)
 	{
-		$start = date_create($formdata['start_date']);
-		$start = date_format($start,"Y-m-d H:i:s");
-		//echo "</br>";
-
-		//echo $formdata['2'];
-		$end = date_create($formdata['end_date']);
-		$end = date_format($end,"Y-m-d H:i:s");
-	    //exit();
-
-	    $query = $this->db->query("SELECT assigned_to,status,
+		 $query = $this->db->query("SELECT assigned_to,status,
 	    	AVG(mttr) AS Avg_mmtr,
 	    	COUNT(case status when 'Pending' then 1 else null end) AS Pending,
 	    	COUNT(case status when 'Closed' then 1 else null end) AS Closed,
@@ -157,6 +194,7 @@ class Report_data_model extends CI_Model
 			COUNT(case when priority ='S4' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS Others,		
 	    	COUNT(sr_id) As sr_count 
 	    	FROM `sr_list` WHERE log_time >= '{$start}' AND updated_time <= '{$end}' GROUP BY `assigned_to` ASC;");
+			
 			return $result=$query->result();
 	}
 	

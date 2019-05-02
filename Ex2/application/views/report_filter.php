@@ -1112,7 +1112,6 @@ print_r($sr_pivot_data);
 				?>				
 			</table>
 		</div>
-
 		<div class="col-lg-auto">
 			<canvas id="ctx" width="700"></canvas>
 		</div>
