@@ -49,15 +49,54 @@ class Report_data_model extends CI_Model
 
 	public function get_trend_data_rows()
 	{
+	  $current_month = date_create()->format('Y-m-d H:i:s');
+
+	  echo date_create($current_month)
+      ->modify('first day of this month')
+      ->format("Y-m-d 00:00:00")."<br>";
+      
+      echo date_create($current_month)
+      ->format("Y-m-d 00:00:00");
+
+      echo"</br></br>";
+
+      echo date_create($current_month)
+      ->modify('-1 months')
+      ->modify('first day of this month')
+      ->format("Y-m-d 00:00:00")."</br>";
+
+      echo date_create($current_month)
+      ->modify('-1 months')
+      ->modify('last day of this month')
+      ->format("Y-m-d 00:00:00");
+
+      echo"</br></br>";
+
+      echo date_create($current_month)
+      ->modify('-2 months')
+      ->modify('first day of this month')
+      ->format("Y-m-d 00:00:00")."</br>";
+
+      echo date_create($current_month)
+      ->modify('-2 months')
+      ->modify('last day of this month')
+      ->format("Y-m-d 00:00:00");
+
+
+
+
+	echo "</br>"."</br>"."</br>"."</br>"."</br>"."</br>";	
 	$current_date=date("Y-m-d H:i:s");
 	echo "$current_date"."</br>";
-
-		  // First day of this month
-    $first_day_of_current_month = new DateTime('last day of this month');
+	// First day of this month
+    $first_day_of_current_month = new DateTime('first day of this month');
     // echo $first_day_of_current_month->format('jS, F Y')."</br>";
-    echo $s=date_format($first_day_of_current_month,"Y-m-d 00:00:00")."</br>";
+    echo date_format($first_day_of_current_month,"Y-m-d 00:00:00")."</br>";
 
-    
+    echo date('Y-m-d 00:00:00', strtotime('-1 month'))."</br>";
+
+    echo date('Y-m-d 00:00:00', strtotime('-2 month'));
+
 
     // // First day of a specific month
     // $d = new DateTime('2010-01-19');
@@ -68,7 +107,6 @@ class Report_data_model extends CI_Model
     // echo date_create('2010-01-19')
     //   ->modify('first day of this month')
     //   ->format('jS, F Y');
-
 		exit();
 	}
 
