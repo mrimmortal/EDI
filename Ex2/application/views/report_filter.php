@@ -357,6 +357,8 @@ print_r($sr_pivot_data);
 					<?php
 					if($insident_pivot_data != null)
 					{
+						$i_backlog= 0;
+
 						$i3_days_other_team = 0;
 						$i3_days_user_response = 0;
 						$i3_days_in_progress = 0;
@@ -496,7 +498,7 @@ print_r($sr_pivot_data);
 											$more_than_9_days_vendor_dependency; ?>
 							</th>
 							<th>
-								<?php echo $i3_days_other_team+
+								<?php echo $i_backlog=$i3_days_other_team+
 											$i4_6_days_other_team+
 											$i7_9_days_other_team+
 											$more_than_9_days_other_team+
@@ -937,6 +939,8 @@ print_r($sr_pivot_data);
 
 					if($sr_pivot_data != null)
 					{
+						$sr_backlog = 0;
+
 						$other_Team_15_50 = 0;
 						$user_response_awaited_15_50 = 0;
 						$vendor_dependency_15_50 = 0;
@@ -1089,7 +1093,7 @@ print_r($sr_pivot_data);
 							</th>
 							<th>
 								<?php 
-								echo $scheduled_ticket_15_50 
+								echo $sr_backlog = $scheduled_ticket_15_50 
 								+ $other_Team_15_50 
 								+ $user_response_awaited_15_50 
 								+ $vendor_dependency_15_50 
@@ -1159,7 +1163,7 @@ print_r($sr_pivot_data);
 						<td><?php echo round($i_no_Total*100,0)."%"; ?></td>
 						<td><?php echo round($i_avg_mmtr_Grand_Total,2); ?></td>
 						<td><?php echo $open_Total; ?></td>
-						<td></td>
+						<td><?php echo $i_backlog ?></td>
 						<td><?php echo $i_Workflow_Error_Total; ?> </td>
 
 					</tr>					
@@ -1214,7 +1218,7 @@ print_r($sr_pivot_data);
 						<td><?php echo round($sr_no_Total*100,0)."%"; ?></td>
 						<td><?php echo round($s_Grand_Total,2); ?></td>
 						<td><?php echo $sr_open_Total; ?></td>
-						<td></td>
+						<td><?php echo $sr_backlog; ?></td>
 
 					</tr>					
 				</tbody>		
