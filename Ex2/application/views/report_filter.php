@@ -180,8 +180,10 @@ print_r($sr_pivot_data);
 					<?php
 					if($insident_pivot_data != null){
 						$i_avg_mmtr_Grand_Total= 0;
+						$i_c=0;
 						foreach ($insident_pivot_data as $row) 
 						{  
+							$i_c++;
 							$i_avg_mmtr_Grand_Total = $i_avg_mmtr_Grand_Total + $row->Avg_mmtr;
 							?> 	 
 							<tr>
@@ -195,7 +197,7 @@ print_r($sr_pivot_data);
 					<tfoot>
 						<tr>
 							<th class="table-success">Grand Total</th>
-							<th ><?php echo round($i_avg_mmtr_Grand_Total,2);?></th>
+							<th><?php echo round(($i_avg_mmtr_Grand_Total=$i_avg_mmtr_Grand_Total/$i_c),2);?></th>
 						</tr>
 					</tfoot>
 					<?php
@@ -550,12 +552,14 @@ print_r($sr_pivot_data);
 						$sr_Total_Resolved=0;
 						$sr_Total_Close=0;
 						$sr_Total_sr=0;
+						$sr_new_count=0;
 
 						foreach ($sr_pivot_data as $row) 
 						{   
 							$sr_Total_Resolved = $sr_Total_Resolved + $row->Resolved;
 							$sr_Total_Close = $sr_Total_Close + $row->Closed;
 							$sr_Total_sr = $sr_Total_Resolved + $sr_Total_Close;
+							$sr_new_count = $sr_new_count + $row->new_count;
 							?> 	 
 							<tr>
 								<td><?php echo $row->assigned_to; ?></td>
@@ -592,8 +596,10 @@ print_r($sr_pivot_data);
 					<?php
 					if($sr_pivot_data != null){
 						$s_Grand_Total= 0;
+						$s_c=0;
 						foreach ($sr_pivot_data as $row) 
 						{  
+							$s_c++;
 							$s_Grand_Total = $s_Grand_Total + $row->Avg_mmtr;
 							?> 	 
 							<tr>
@@ -607,7 +613,7 @@ print_r($sr_pivot_data);
 					<tfoot>
 						<tr>
 							<th class="table-success">Grand Total</th>
-							<th ><?php echo round($s_Grand_Total,2); ?></th>
+							<th ><?php echo round(($s_Grand_Total=$s_Grand_Total/$s_c),2); ?></th>
 						</tr>
 					</tfoot>
 					<?php
@@ -1203,11 +1209,11 @@ print_r($sr_pivot_data);
 					}   
 					?>   
 					<tr>
-						<td><?php echo $i_New_incident; ?></td>							
-						<td><?php echo $i_Total_R_C_Incident; ?> </td>
-						<td><?php echo round($i_no_Total*100,0)."%"; ?></td>
-						<td><?php echo round($i_avg_mmtr_Grand_Total,2); ?></td>
-						<td><?php echo $open_Total; ?></td>
+						<td><?php echo $sr_new_count; ?></td>							
+						<td><?php echo $sr_Total_sr; ?> </td>
+						<td><?php echo round($sr_no_Total*100,0)."%"; ?></td>
+						<td><?php echo round($s_Grand_Total,2); ?></td>
+						<td><?php echo $sr_open_Total; ?></td>
 						<td></td>
 
 					</tr>					
