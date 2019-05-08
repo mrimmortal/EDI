@@ -80,13 +80,13 @@
 </div>
 
 
- <pre>
-<?php
-if($sr_pivot_data != null)
-{
-print_r($sr_pivot_data);
-}
-?>
+<pre>
+	<?php
+	if($sr_pivot_data != null)
+	{
+		print_r($trend_data);
+	}
+	?>
 </pre>
 
 
@@ -95,7 +95,6 @@ print_r($sr_pivot_data);
 	</br>
 
 	<h5 align="center">
-
 		<?php
 		if($start_date!= null && $end_date!= null)
 		{
@@ -370,7 +369,7 @@ print_r($sr_pivot_data);
 						$i4_6_days_in_progress = 0;
 						$i4_6_days_under_observation = 0;
 						$i4_6_days_vendor_dependency = 0;
-						
+
 						$i7_9_days_other_team = 0;
 						$i7_9_days_user_response = 0;
 						$i7_9_days_in_progress = 0;
@@ -411,45 +410,45 @@ print_r($sr_pivot_data);
 						}   
 
 						?>  
-						 <tr>
-						 	<td>3 Days</td>
-						 	<td><?php echo $i3_days_other_team; ?></td>
-						 	<td><?php echo $i3_days_user_response; ?></td>
-						 	<td><?php echo $i3_days_in_progress; ?></td>
-						 	<td><?php echo $i3_days_under_observation; ?></td>
-						 	<td><?php echo $i3_days_vendor_dependency; ?></td>
-						 	<td><?php echo $i3_days_other_team+
-						 				   $i3_days_user_response+
-						 				   $i3_days_in_progress+
-						 				   $i3_days_under_observation+
-						 				   $i3_days_vendor_dependency; ?></td>
-						 </tr>
-						 <tr>
-						 	<td>4-6 Days</td>
-						 	<td><?php echo $i4_6_days_other_team; ?></td>
-						 	<td><?php echo $i4_6_days_user_response; ?></td>
-						 	<td><?php echo $i4_6_days_in_progress; ?></td>
-						 	<td><?php echo $i4_6_days_under_observation; ?></td>
-						 	<td><?php echo $i4_6_days_vendor_dependency; ?></td>
-						 	<td><?php echo $i4_6_days_other_team+
-						 				   $i4_6_days_user_response+
-						 				   $i4_6_days_in_progress+
-						 				   $i4_6_days_under_observation+
-						 				   $i4_6_days_vendor_dependency; ?></td>
-						 </tr>
-						 <tr>
-						 	<td>7-9 Days</td>
-						 	<td><?php echo $i7_9_days_other_team; ?></td>
-						 	<td><?php echo $i7_9_days_user_response; ?></td>
-						 	<td><?php echo $i7_9_days_in_progress; ?></td>
-						 	<td><?php echo $i7_9_days_under_observation; ?></td>
-						 	<td><?php echo $i7_9_days_vendor_dependency; ?></td>
-						 	<td><?php echo $i7_9_days_other_team+
-						 				   $i7_9_days_user_response+
-						 				   $i7_9_days_in_progress+
-						 				   $i7_9_days_under_observation+
-						 				   $i7_9_days_vendor_dependency; ?></td>
-						 </tr>
+						<tr>
+							<td>3 Days</td>
+							<td><?php echo $i3_days_other_team; ?></td>
+							<td><?php echo $i3_days_user_response; ?></td>
+							<td><?php echo $i3_days_in_progress; ?></td>
+							<td><?php echo $i3_days_under_observation; ?></td>
+							<td><?php echo $i3_days_vendor_dependency; ?></td>
+							<td><?php echo $i3_days_other_team+
+							$i3_days_user_response+
+							$i3_days_in_progress+
+							$i3_days_under_observation+
+							$i3_days_vendor_dependency; ?></td>
+						</tr>
+						<tr>
+							<td>4-6 Days</td>
+							<td><?php echo $i4_6_days_other_team; ?></td>
+							<td><?php echo $i4_6_days_user_response; ?></td>
+							<td><?php echo $i4_6_days_in_progress; ?></td>
+							<td><?php echo $i4_6_days_under_observation; ?></td>
+							<td><?php echo $i4_6_days_vendor_dependency; ?></td>
+							<td><?php echo $i4_6_days_other_team+
+							$i4_6_days_user_response+
+							$i4_6_days_in_progress+
+							$i4_6_days_under_observation+
+							$i4_6_days_vendor_dependency; ?></td>
+						</tr>
+						<tr>
+							<td>7-9 Days</td>
+							<td><?php echo $i7_9_days_other_team; ?></td>
+							<td><?php echo $i7_9_days_user_response; ?></td>
+							<td><?php echo $i7_9_days_in_progress; ?></td>
+							<td><?php echo $i7_9_days_under_observation; ?></td>
+							<td><?php echo $i7_9_days_vendor_dependency; ?></td>
+							<td><?php echo $i7_9_days_other_team+
+							$i7_9_days_user_response+
+							$i7_9_days_in_progress+
+							$i7_9_days_under_observation+
+							$i7_9_days_vendor_dependency; ?></td>
+						</tr>
 						<tr>
 							<td>More than 9 days</td>
 							<td><?php echo $more_than_9_days_other_team; ?></td>
@@ -458,10 +457,10 @@ print_r($sr_pivot_data);
 							<td><?php echo $more_than_9_days_under_observation; ?></td>  
 							<td><?php echo $more_than_9_days_vendor_dependency; ?></td>
 							<td><?php echo $more_than_9_days_other_team+
-										   $more_than_9_days_user_response+
-										   $more_than_9_days_in_progress+
-										   $more_than_9_days_under_observation+
-										   $more_than_9_days_vendor_dependency; ?></td>         
+							$more_than_9_days_user_response+
+							$more_than_9_days_in_progress+
+							$more_than_9_days_under_observation+
+							$more_than_9_days_vendor_dependency; ?></td>         
 						</tr>
 					</tbody>
 					<tfoot>
@@ -469,55 +468,55 @@ print_r($sr_pivot_data);
 							<th class="table-success">Grand Total</th>
 							<th>
 								<?php echo $i3_days_other_team+
-											$i4_6_days_other_team+
-											$i7_9_days_other_team+
-											$more_than_9_days_other_team; ?>
+								$i4_6_days_other_team+
+								$i7_9_days_other_team+
+								$more_than_9_days_other_team; ?>
 							</th>
 							<th>
 								<?php echo $i3_days_user_response+
-											$i4_6_days_user_response+
-											$i7_9_days_user_response+
-											$more_than_9_days_user_response; ?> 
+								$i4_6_days_user_response+
+								$i7_9_days_user_response+
+								$more_than_9_days_user_response; ?> 
 							</th>
 							<th>
-							 	<?php echo $i3_days_in_progress+
-							 				$i4_6_days_in_progress+
-							 				$i7_9_days_in_progress+
-							 				$more_than_9_days_in_progress; ?>
+								<?php echo $i3_days_in_progress+
+								$i4_6_days_in_progress+
+								$i7_9_days_in_progress+
+								$more_than_9_days_in_progress; ?>
 							</th>
 							<th>
 								<?php echo $i3_days_under_observation+
-											$i4_6_days_under_observation+
-											$i7_9_days_under_observation+
-											$more_than_9_days_under_observation; ?>
+								$i4_6_days_under_observation+
+								$i7_9_days_under_observation+
+								$more_than_9_days_under_observation; ?>
 							</th>
 							<th>
 								<?php echo $i3_days_vendor_dependency+
-											$i4_6_days_vendor_dependency+
-											$i7_9_days_vendor_dependency+
-											$more_than_9_days_vendor_dependency; ?>
+								$i4_6_days_vendor_dependency+
+								$i7_9_days_vendor_dependency+
+								$more_than_9_days_vendor_dependency; ?>
 							</th>
 							<th>
 								<?php echo $i_backlog=$i3_days_other_team+
-											$i4_6_days_other_team+
-											$i7_9_days_other_team+
-											$more_than_9_days_other_team+
-											$i3_days_user_response+
-											$i4_6_days_user_response+
-											$i7_9_days_user_response+
-											$more_than_9_days_user_response+
-											$i3_days_in_progress+
-							 				$i4_6_days_in_progress+
-							 				$i7_9_days_in_progress+
-							 				$more_than_9_days_in_progress+
-							 				$i3_days_under_observation+
-											$i4_6_days_under_observation+
-											$i7_9_days_under_observation+
-											$more_than_9_days_under_observation+
-											$i3_days_vendor_dependency+
-											$i4_6_days_vendor_dependency+
-											$i7_9_days_vendor_dependency+
-											$more_than_9_days_vendor_dependency; ?>
+								$i4_6_days_other_team+
+								$i7_9_days_other_team+
+								$more_than_9_days_other_team+
+								$i3_days_user_response+
+								$i4_6_days_user_response+
+								$i7_9_days_user_response+
+								$more_than_9_days_user_response+
+								$i3_days_in_progress+
+								$i4_6_days_in_progress+
+								$i7_9_days_in_progress+
+								$more_than_9_days_in_progress+
+								$i3_days_under_observation+
+								$i4_6_days_under_observation+
+								$i7_9_days_under_observation+
+								$more_than_9_days_under_observation+
+								$i3_days_vendor_dependency+
+								$i4_6_days_vendor_dependency+
+								$i7_9_days_vendor_dependency+
+								$more_than_9_days_vendor_dependency; ?>
 							</th>
 
 						</tr>
@@ -830,7 +829,7 @@ print_r($sr_pivot_data);
 					<tr class="table-success">
 						<th>Category</th>
 						<th>SR Count</th>
-						
+
 					</tr>
 				</thead>
 				<tbody>
@@ -862,7 +861,7 @@ print_r($sr_pivot_data);
 								<?php echo $EUC_master_data_count; ?>
 							</td>
 						</tr>
-							<tr>
+						<tr>
 							<td>EUC-Minor EDI Map Change</td>
 							<td>
 								<?php echo $EUC_minor_edi_map_change; ?>
@@ -872,28 +871,28 @@ print_r($sr_pivot_data);
 							<td>EUC-New connection</td>
 							<td>
 								<?php echo $EUC_new_connection; ?>
-						</td>
+							</td>
 						</tr>
-								<tr>
+						<tr>
 							<td>EUC-New customer setup</td>
 							<td>
 								<?php echo $EUC_new_customer_setup; ?>
 							</td>
 						</tr>
 						<tr>
-						<td>EUC-New EDI Map</td>
+							<td>EUC-New EDI Map</td>
 							<td>
 								<?php echo $EUC_new_edi_map; ?>
 							</td>
 						</tr>
 						<tr>
-						<td>EUC-New vendor setup</td>
+							<td>EUC-New vendor setup</td>
 							<td>
 								<?php echo $EUC_new_vendor_setup; ?>
 							</td>
 						</tr>
 						<tr>
-						<td>Others</td>
+							<td>Others</td>
 							<td>
 								<?php echo $Others; ?>
 							</td>
@@ -903,12 +902,12 @@ print_r($sr_pivot_data);
 						<tr>
 							<th class="table-success">Grand Total</th>
 							<th ><?php  echo $EUC_master_data_count+
-						$EUC_minor_edi_map_change +
-						$EUC_new_connection +
-						$EUC_new_customer_setup +
-						$EUC_new_edi_map +
-						$EUC_new_vendor_setup +
-						$Others; ?></th>
+							$EUC_minor_edi_map_change +
+							$EUC_new_connection +
+							$EUC_new_customer_setup +
+							$EUC_new_edi_map +
+							$EUC_new_vendor_setup +
+							$Others; ?></th>
 						</tr>
 					</tfoot>
 					<?php
@@ -1241,6 +1240,186 @@ print_r($sr_pivot_data);
 </div>
 <div id="Trend_data" class="tabcontent">
 	<h3>Trend Data</h3>
+
+	<div class="col-lg-auto"><!--Trend Data incidents Report Table -->
+		<table class="table border">
+			<thead>
+				<tr class="table-success">
+					<th class="center">Incidents</th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>						
+				</tr>
+				<tr>
+					<th class="table-success"></th>
+					<th class="table-success">New Tkts</th>
+					<th class="table-success">Resolved</th>
+					<th class="table-success">SLA</th>
+					<th class="table-success">MTTR</th>
+					<th class="table-success">Open</th>
+					<th class="table-success">Backlog</th>						
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				if($trend_data != null)
+				{
+//	for ($i=1; $i < 2; $i++) { 
+//print_r($trend_data[$i]);
+					for($j=0;$j<=8;$j=$j+3)
+					{
+						// echo"<pre>";
+						// print_r($trend_data[0][$j+2][0]);
+						// echo"</pre>";
+						?>   
+						<tr>
+							<td><?php echo $trend_data[0][$j];?></td>							
+							<td><?php echo $trend_data[0][$j+2][0]->New_Count; ?></td>
+							<td><?php echo $trend_data[0][$j+2][0]->Resolved; ?></td>
+							<td><?php 
+							if($trend_data[0][$j+2][0]->resolution_violation_no != 0 || $trend_data[0][$j+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[0][$j+2][0]->resolution_violation_no
+								/($trend_data[0][$j+2][0]->resolution_violation_no
+									+$trend_data[0][$j+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0)."%";}
+								else
+								{
+									echo "0";
+								} 
+								?>									
+							</td>
+							<td><?php echo $trend_data[0][$j+2][0]->Avg_mmtr; ?></td>
+							<td><?php echo $trend_data[0][$j+2][0]->Pending + $trend_data[0][$j+2][0]->In_Process; ?></td>
+							<td><?php echo 
+							$trend_data[0][$j+2][0]->i3_days_other_team
+							+$trend_data[0][$j+2][0]->i3_days_user_response
+							+$trend_data[0][$j+2][0]->i3_days_in_progress
+							+$trend_data[0][$j+2][0]->i3_days_under_observation
+							+$trend_data[0][$j+2][0]->i3_days_vendor_dependency
+							+$trend_data[0][$j+2][0]->i4_6_days_other_team
+							+$trend_data[0][$j+2][0]->i4_6_days_user_response
+							+$trend_data[0][$j+2][0]->i4_6_days_in_progress
+							+$trend_data[0][$j+2][0]->i4_6_days_under_observation
+							+$trend_data[0][$j+2][0]->i4_6_days_vendor_dependency
+							+$trend_data[0][$j+2][0]->i7_9_days_other_team
+							+$trend_data[0][$j+2][0]->i7_9_days_user_response
+							+$trend_data[0][$j+2][0]->i7_9_days_in_progress
+							+$trend_data[0][$j+2][0]->i7_9_days_under_observation
+							+$trend_data[0][$j+2][0]->i7_9_days_vendor_dependency
+							+$trend_data[0][$j+2][0]->more_than_9_days_other_team
+							+$trend_data[0][$j+2][0]->more_than_9_days_user_response
+							+$trend_data[0][$j+2][0]->more_than_9_days_in_progress
+							+$trend_data[0][$j+2][0]->more_than_9_days_under_observation
+							+$trend_data[0][$j+2][0]->more_than_9_days_vendor_dependency;
+							?>
+						</td>
+					</tr>					
+				</tbody>		
+				<?php
+				//	}
+			}
+		}
+		?>			
+	</table>
+</div>
+
+
+	<div class="col-lg-auto"><!--Trend Data SR Report Table -->
+		<table class="table border">
+			<thead>
+				<tr class="table-success">
+					<th class="center">Service Requests</th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>
+					<th class="center"></th>						
+				</tr>
+				<tr>
+					<th class="table-success"></th>
+					<th class="table-success">New Tkts</th>
+					<th class="table-success">Resolved</th>
+					<th class="table-success">SLA</th>
+					<th class="table-success">MTTR</th>
+					<th class="table-success">Open</th>
+					<th class="table-success">Backlog</th>						
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				if($trend_data != null)
+				{
+//	for ($i=1; $i < 2; $i++) { 
+
+//print_r($trend_data[$i]);
+
+					for($j=0;$j<=8;$j=$j+3)
+					{
+						// echo"<pre>";
+						// print_r($trend_data[1][$j+2][0]);
+						// echo"</pre>";
+						?>   
+						<tr>
+							<td><?php echo $trend_data[1][$j];?></td>							
+							<td><?php echo $trend_data[1][$j+2][0]->new_count; ?></td>
+							<td><?php echo $trend_data[1][$j+2][0]->Resolved; ?></td>
+							<td><?php 
+							if($trend_data[1][$j+2][0]->resolution_violation_no != 0 || $trend_data[1][$j+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[1][$j+2][0]->resolution_violation_no
+								/($trend_data[1][$j+2][0]->resolution_violation_no
+									+$trend_data[1][$j+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0)."%";}
+								else
+								{
+									echo "0";
+								} 
+								?>									
+							</td>
+							<td><?php echo $trend_data[1][$j+2][0]->Avg_mmtr; ?></td>
+							<td><?php echo $trend_data[1][$j+2][0]->Pending + $trend_data[1][$j+2][0]->In_Process; ?></td>
+							<td><?php echo
+							$trend_data[1][$j+2][0]->user_response_awaited_15_50
+							+$trend_data[1][$j+2][0]->vendor_dependency_15_50
+							+$trend_data[1][$j+2][0]->in_progress_15_50
+							+$trend_data[1][$j+2][0]->scheduled_ticket_15_50
+							+$trend_data[1][$j+2][0]->other_Team_51_70
+							+$trend_data[1][$j+2][0]->user_response_awaited_51_70
+							+$trend_data[1][$j+2][0]->vendor_dependency_51_70
+							+$trend_data[1][$j+2][0]->in_progress_51_70
+							+$trend_data[1][$j+2][0]->scheduled_ticket_51_70
+							+$trend_data[1][$j+2][0]->other_Team_71_90
+							+$trend_data[1][$j+2][0]->user_response_awaited_71_90
+							+$trend_data[1][$j+2][0]->vendor_dependency_71_90
+							+$trend_data[1][$j+2][0]->in_progress_71_90
+							+$trend_data[1][$j+2][0]->scheduled_ticket_71_90
+							+$trend_data[1][$j+2][0]->other_Team_90
+							+$trend_data[1][$j+2][0]->user_response_awaited_90
+							+$trend_data[1][$j+2][0]->vendor_dependency_90
+							+$trend_data[1][$j+2][0]->in_progress_90
+							+$trend_data[1][$j+2][0]->scheduled_ticket_90
+							+$trend_data[1][$j+2][0]->other_Team_15_50;
+							?>
+						</td>
+					</tr>					
+				</tbody>		
+
+				<?php
+//	}
+			}
+		}
+		?>			
+	</table>
+</div>
+
+
 </div>
 <!-- <h4>
 <pre>
