@@ -142,23 +142,23 @@ class Report_data_model extends CI_Model
 
        for ($i=0; $i <=5 ; $i=$i+2)
        {       	
-       	echo"</br>";
+       	//echo"</br>";
 
-      	print_r($start = new DateTime($dates[$i]));
+      	$start = new DateTime($dates[$i]);
       	
-      	echo"</br>";
+      	//echo"</br>";
 
-		echo $start = date_format($start,"Y-m-d 00:00:00");
+		$start = date_format($start,"Y-m-d 00:00:00");
 
-		echo"</br>";
+		//echo"</br>";
 
-		print_r($end = new DateTime($dates[$i+1]));
+		$end = new DateTime($dates[$i+1]);
 
-		echo"</br>";
+		//echo"</br>";
 
-		echo $end = date_format($end,"Y-m-d 00:00:00");
+		$end = date_format($end,"Y-m-d 00:00:00");
 
-		echo"</br>";
+		//echo"</br>";
 		$i_rows[] = date_create($start)->format("F Y");
 		$i_rows[] = date_create($end)->format("F Y");
 		$i_rows[] = $this->trend_insident_data($start,$end);

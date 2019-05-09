@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="<?php echo base_url('bootstrap/js/daterangepicker.min.js')?>"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('bootstrap/css/daterangepicker.css');?>" />
-
+    <!-- https://stackoverflow.com/questions/29228163/call-javascript-a-function-in-html-submit-button -->
 	<style>
 		/* Style the tab */
 		.tab {
@@ -58,20 +58,18 @@
 	</style>
 </head>
 <body>
-
-
-	<div align="center">
+	<div id = "rangeForm" align="center">
 		<br>
 		<div align="left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 17%">
 			<form action="<?php echo base_url()."Report/genrate_Report";?>" method="post">
-				<input id="reportrange" id="a" type="text" name="daterange" class="fa fa-calendar" style="width: 100%"></input>
+				<input id="reportrange" id="a" type="text" name="daterange" class="fa fa-calendar" style="width: 100%; margin-top: 8px; text-align: center;"></input>
 
 				<input  id="startdate" type="text" name="start_date" class="fa fa-calendar invisible" style="width: 100%" ></input>
 
 				<input  id="enddate" type="text" name="end_date" class="fa fa-calendar invisible" style="width: 100%" ></input>
 				<!-- <span></span> <i class="fa fa-caret-down"></i> -->
 				<div align="center">
-					<button class="btn btn-primary" type="submit" >Genrate Report</button>
+					<button class="btn btn-primary" type="submit" style="margin-top:-35px; margin-bottom: 8px;" >Genrate Report</button>
 				</div>
 			</form>
 		</div>
@@ -88,7 +86,11 @@
 	}
 	?>
 </pre> -->
-
+<div style="margin: 10px;
+    
+    text-align: right;" >
+	<button class="btn btn-primary col-lg-2"  id='toggleMyForm'>Hide</button>
+</div>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -196,7 +198,7 @@
 					<tfoot>
 						<tr>
 							<th class="table-success">Grand Total</th>
-							<th><?php echo $i_avg_mmtr_Grand_Total."</br>";   echo round($i_avg_mmtr_Grand_Total=($i_avg_mmtr_Grand_Total/$i_c),2);?></th>
+							<th><?php echo round($i_avg_mmtr_Grand_Total=($i_avg_mmtr_Grand_Total/$i_c),2);?></th>
 						</tr>
 					</tfoot>
 					<?php
@@ -1278,7 +1280,7 @@
 						<tr>
 							<td><?php echo $trend_data[0][$j];?></td>							
 							<td><?php echo $trend_data[0][$j+2][0]->New_Count; ?></td>
-							<td><?php echo $trend_data[0][$j+2][0]->Resolved; ?></td>
+							<td><?php echo $trend_data[0][$j+2][0]->Resolved + $trend_data[0][$j+2][0]->Closed ; ?></td>
 							<td><?php 
 							if($trend_data[0][$j+2][0]->resolution_violation_no != 0 || $trend_data[0][$j+2][0]->resolution_violation_yes != 0)
 							{
@@ -1368,7 +1370,7 @@
 						<tr>
 							<td><?php echo $trend_data[1][$j];?></td>							
 							<td><?php echo $trend_data[1][$j+2][0]->new_count; ?></td>
-							<td><?php echo $trend_data[1][$j+2][0]->Resolved; ?></td>
+							<td><?php echo $trend_data[1][$j+2][0]->Resolved + $trend_data[1][$j+2][0]->Closed; ?></td>
 							<td><?php 
 							if($trend_data[1][$j+2][0]->resolution_violation_no != 0 || $trend_data[1][$j+2][0]->resolution_violation_yes != 0)
 							{
@@ -1463,6 +1465,7 @@ cb(start, end);
 });
 
 </script>
+
 
 <script> //Tabs
 	function openCity(evt, cityName) {
@@ -1604,6 +1607,16 @@ stacked: true // this also..
 }]
 }
 }
+});
+</script>
+
+<script>
+	var myForm       = $('#rangeForm');
+var toggleMyForm = $('#toggleMyForm');
+
+toggleMyForm.on('click', function(){
+    myForm.toggle();
+    myForm.is(":visible") ? $(this).html('Hide') : $(this).html('Show');
 });
 </script>
 </html>
