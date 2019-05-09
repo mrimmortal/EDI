@@ -80,14 +80,14 @@
 </div>
 
 
-<pre>
+<!-- <pre>
 	<?php
 	if($sr_pivot_data != null)
 	{
 		print_r($trend_data);
 	}
 	?>
-</pre>
+</pre> -->
 
 
 <div class="row">
@@ -183,7 +183,7 @@
 						foreach ($insident_pivot_data as $row) 
 						{  
 							$i_c++;
-							$i_avg_mmtr_Grand_Total = $i_avg_mmtr_Grand_Total + $row->Avg_mmtr;
+						   $i_avg_mmtr_Grand_Total = $i_avg_mmtr_Grand_Total + $row->Avg_mmtr;
 							?> 	 
 							<tr>
 								<td><?php echo $row->assigned_to; ?></td>
@@ -196,7 +196,7 @@
 					<tfoot>
 						<tr>
 							<th class="table-success">Grand Total</th>
-							<th><?php echo round(($i_avg_mmtr_Grand_Total=$i_avg_mmtr_Grand_Total/$i_c),2);?></th>
+							<th><?php echo $i_avg_mmtr_Grand_Total."</br>";   echo round($i_avg_mmtr_Grand_Total=($i_avg_mmtr_Grand_Total/$i_c),2);?></th>
 						</tr>
 					</tfoot>
 					<?php
@@ -1293,7 +1293,7 @@
 								} 
 								?>									
 							</td>
-							<td><?php echo $trend_data[0][$j+2][0]->Avg_mmtr; ?></td>
+							<td><?php echo round($trend_data[0][$j+2][0]->Avg_mmtr,2); ?></td>
 							<td><?php echo $trend_data[0][$j+2][0]->Pending + $trend_data[0][$j+2][0]->In_Process; ?></td>
 							<td><?php echo 
 							$trend_data[0][$j+2][0]->i3_days_other_team
@@ -1383,7 +1383,7 @@
 								} 
 								?>									
 							</td>
-							<td><?php echo $trend_data[1][$j+2][0]->Avg_mmtr; ?></td>
+							<td><?php echo round($trend_data[1][$j+2][0]->Avg_mmtr,2); ?></td>
 							<td><?php echo $trend_data[1][$j+2][0]->Pending + $trend_data[1][$j+2][0]->In_Process; ?></td>
 							<td><?php echo
 							$trend_data[1][$j+2][0]->user_response_awaited_15_50
@@ -1463,7 +1463,8 @@ cb(start, end);
 });
 
 </script>
-<script>
+
+<script> //Tabs
 	function openCity(evt, cityName) {
 		var i, tabcontent, tablinks;
 		tabcontent = document.getElementsByClassName("tabcontent");
@@ -1481,30 +1482,69 @@ cb(start, end);
 document.getElementById("defaultOpen").click();
 </script>
 
-<script>
+<script> //Incident Pivot Chart
 	new Chart(document.getElementById("bar-chart"), {
 		type: 'bar',
-		data: {
-			labels: ["More than 9 days"],
-			datasets: [
-			{
-				label: "User Response Awaited",
-				backgroundColor: ["#3e95cd"],
-				data: [<?php echo $i_User_Responce_Waiting_count;?>]
-			}
-			]
-		},
-		options: {
-			legend: { display: true },
-			title: {
-				display: true,
-				text: 'User Response Awaited'
-			}
-		}
+				data: {
+labels: ['3 Days','4-6 Days','7-9 Days','more than 9 days'], // responsible for how many bars are gonna show on the chart
+// create 12 datasets, since we have 12 items
+// data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
+// put 0, if there is no data for the particular bar
+datasets: [{
+	label: 'Other Team/Group Dependency',
+	data: [<?php echo $i3_days_other_team;?>,
+	<?php echo $i4_6_days_other_team;?>,
+	<?php echo $i7_9_days_other_team;?>,
+	<?php echo $more_than_9_days_other_team?>],
+	backgroundColor: '#22aa99'							
+}, {
+	label: 'User Response Awaited',
+	data: [<?php echo $i3_days_user_response;?>,
+	<?php echo $i4_6_days_user_response;?>,
+	<?php echo $i7_9_days_user_response;?>,
+	<?php echo $more_than_9_days_user_response;?>],
+	backgroundColor: '#994499'														
+}, {
+	label: 'Vendor Dependency',
+	data: [<?php echo $i3_days_vendor_dependency;?>,
+	<?php echo $i4_6_days_vendor_dependency;?>,
+	<?php echo $i7_9_days_vendor_dependency;?>,
+	<?php echo $more_than_9_days_vendor_dependency;?>],
+	backgroundColor: '#316395'
+}, {
+	label: 'In Progress',
+	data: [<?php echo $i3_days_under_observation;?>,
+	<?php echo $i4_6_days_under_observation;?>,
+	<?php echo $i7_9_days_under_observation;?>,
+	<?php echo $more_than_9_days_under_observation;?>],
+	backgroundColor: '#b82e2e'														
+}, {
+	label: 'Under Observation',
+	data: [<?php echo $i3_days_in_progress;?>,
+	<?php echo $i4_6_days_in_progress;?>,
+	<?php echo $i7_9_days_in_progress;?>,
+	<?php echo $more_than_9_days_in_progress;?>],
+	backgroundColor: '#66aa00'
+},]
+},
+options: {
+	responsive: false,
+	legend: {
+position: 'right' // place legend on the right side of chart
+},
+scales: {
+	xAxes: [{
+stacked: true // this should be set to make the bars stacked
+}],
+yAxes: [{
+stacked: true // this also..
+}]
+}
+}
 	});
 </script>
 
-<script>
+<script> //SR Pivote Chart
 	var chart = new Chart(ctx, {
 		type: 'bar',
 		data: {

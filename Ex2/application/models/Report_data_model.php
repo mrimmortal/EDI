@@ -58,60 +58,87 @@ class Report_data_model extends CI_Model
 
 	  $current_month = date_create()->format('Y-m-d H:i:s');
 
-	  echo $current_month_first_day=date_create($current_month)
+	  // echo $current_month_first_day=date_create($current_month)
+   //    ->modify('first day of this month')
+   //    ->format("Y-m-d 00:00:00");
+	  $current_month_first_day=date_create($current_month)
       ->modify('first day of this month')
       ->format("Y-m-d 00:00:00");
 
+
       $dates[] = $current_month_first_day;
 
-      echo"</br>";
+      //echo"</br>";
       
-      echo $current_month_current_day=date_create($current_month)
+      // echo $current_month_current_day=date_create($current_month)
+      // ->format("Y-m-d 23:59:59");
+
+      $current_month_current_day=date_create($current_month)
       ->format("Y-m-d 23:59:59");	
 
       $dates[] = $current_month_current_day;
 
-      echo"</br></br>";
+      //echo"</br></br>";
 
-      echo $second_month_first_day=date_create($current_month)
+      // echo $second_month_first_day=date_create($current_month)
+      // ->modify('-1 months')
+      // ->modify('first day of this month')
+      // ->format("Y-m-d 00:00:00");
+
+       $second_month_first_day=date_create($current_month)
       ->modify('-1 months')
       ->modify('first day of this month')
       ->format("Y-m-d 00:00:00");
 
       $dates[] = $second_month_first_day;
 
-      echo"</br>";
+      //echo"</br>";
 
-      echo $second_month_last_day=date_create($current_month)
+      // echo $second_month_last_day=date_create($current_month)
+      // ->modify('-1 months')
+      // ->modify('last day of this month')
+      // ->format("Y-m-d 23:59:59");
+
+       $second_month_last_day=date_create($current_month)
       ->modify('-1 months')
       ->modify('last day of this month')
       ->format("Y-m-d 23:59:59");
 
       $dates[] = $second_month_last_day;
 
-      echo"</br></br>";
+//      echo"</br></br>";
 
-      echo $third_month_first_day=date_create($current_month)
+      // echo $third_month_first_day=date_create($current_month)
+      // ->modify('-2 months')
+      // ->modify('first day of this month')
+      // ->format("Y-m-d 00:00:00");
+
+      $third_month_first_day=date_create($current_month)
       ->modify('-2 months')
       ->modify('first day of this month')
       ->format("Y-m-d 00:00:00");
 
       $dates[] = $third_month_first_day;
 
-      echo"</br>";
+      //echo"</br>";
       			
-      echo $third_month_last_day=date_create($current_month)
+      // echo $third_month_last_day=date_create($current_month)
+      // ->modify('-2 months')
+      // ->modify('last day of this month')
+      // ->format("Y-m-d 23:59:59");
+
+	  $third_month_last_day=date_create($current_month)
       ->modify('-2 months')
       ->modify('last day of this month')
       ->format("Y-m-d 23:59:59");
 
       $dates[] = $third_month_last_day;
 
-      echo"</br>";	
-      echo "<pre>";
-      print_r($dates);
-	  echo "</pre>";	
-	  echo"</br>";			      
+   //    echo"</br>";	
+   //    echo "<pre>";
+   //    print_r($dates);
+	  // echo "</pre>";	
+	  // echo"</br>";			      
 
        for ($i=0; $i <=5 ; $i=$i+2)
        {       	
@@ -132,11 +159,11 @@ class Report_data_model extends CI_Model
 		echo $end = date_format($end,"Y-m-d 00:00:00");
 
 		echo"</br>";
-		$i_rows[] = $start;
-		$i_rows[] = $end;
+		$i_rows[] = date_create($start)->format("F Y");
+		$i_rows[] = date_create($end)->format("F Y");
 		$i_rows[] = $this->trend_insident_data($start,$end);
-      	$sr_rows[] = $start;
-		$sr_rows[] = $end;
+      	$sr_rows[] = date_create($start)->format("F Y");
+		$sr_rows[] = date_create($end)->format("F Y");
       	$sr_rows[] = $this->trend_sr_data($start,$end);	
        }
 
@@ -148,6 +175,7 @@ class Report_data_model extends CI_Model
 
   		$trend_data[] = $i_rows;
   		$trend_data[] = $sr_rows;
+
 
   		return $trend_data;
 
@@ -168,7 +196,8 @@ class Report_data_model extends CI_Model
 	{
 
 		 $query = $this->db->query("SELECT assigned_to,status,
-			 	AVG(mttr) AS Avg_mmtr,
+			 	AVG( case when status in ('Closed','Resolved') then mttr
+      else null end) AS Avg_mmtr,
 			 	
 			 	COUNT(case bucket_age when 'more than 9 days' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS bucket_age,
 
@@ -296,7 +325,8 @@ class Report_data_model extends CI_Model
 	{
 
 		 $query = $this->db->query("SELECT status,
-			 	AVG(mttr) AS Avg_mmtr,
+			 	AVG( case when status in ('Closed','Resolved') then mttr
+      else null end) AS Avg_mmtr,
 			 	
 			 	COUNT(case bucket_age when 'more than 9 days' AND (status='Pending' OR status='In-Progress') then 1 else null end) AS bucket_age,
 
