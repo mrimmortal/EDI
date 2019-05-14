@@ -1,13 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
 class Report extends CI_Controller
 {
+  var $pdf_view_data;
   public function __construct()
   {
     parent::__construct();
     $this->load->model('Report_data_model');
    // $this->load->library('excel');
+    
   }
+  
 
   //Load Report_Filter View
   function index()
@@ -34,6 +38,8 @@ class Report extends CI_Controller
     $data['sr_pivot_data']=$this->Report_data_model->get_Sr_Report_Data($formdata);
     $data['trend_data']=$this->Report_data_model->get_trend_data_rows();
     $this->load->view('report_filter',$data);
+  
   }
+
 }
 ?>

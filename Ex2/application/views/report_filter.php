@@ -5,6 +5,7 @@
 	<title>Excel Import</title>
 	<link rel="stylesheet" href="<?php echo base_url('bootstrap/css/bootstrap.min.css');?>">
 	<script src="<?php echo base_url('bootstrap/js/bootstrap.min.js')?>"></script>	
+
 	<script type="text/javascript" src="<?php echo base_url('bootstrap/js/jquery.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('bootstrap/js/moment.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('bootstrap/js/daterangepicker.min.js')?>"></script>
@@ -55,6 +56,9 @@
 			height: 500px;
 			overflow-y:scroll;
 		}
+			.tabcontent1 {
+				background-color: white;
+		}
 	</style>
 </head>
 <body>
@@ -89,7 +93,14 @@
 <div style="margin: 10px;
     
     text-align: right;" >
-	<button class="btn btn-primary col-lg-2"  id='toggleMyForm'>Hide</button>
+	<button class="btn btn-primary col-lg-2" id='toggleMyForm'>Hide</button>
+</div>
+
+<div style="margin: 10px;
+    
+    text-align: right;" >
+	<a class="btn btn-success" id='exportForm'> Export page</a>
+	 <button onclick="generatePDF()">Export to PDF</button>
 </div>
 
 <div class="row">
@@ -110,9 +121,9 @@
 
 <div class="tab">
 	<button class="tablinks btn btn-primary" onclick="openCity(event,'Incident_pivot')" id="defaultOpen">Incident Pivot</button>
-	<button class="btn btn-primary tablinks" onclick="openCity(event,'Sr_pivot')">SR Pivot</button>
-	<button class="btn btn-primary tablinks" onclick="openCity(event,'Report')">Report</button>
-	<button class="btn btn-primary tablinks" onclick="openCity(event,'Trend_data')">Trend Data</button>
+	<button class="btn btn-primary tablinks" onclick="openCity(event,'Sr_pivot')" id="defaultOpen1">SR Pivot</button>
+	<button class="btn btn-primary tablinks" onclick="openCity(event,'Report')" id="defaultOpen2">Report</button>
+	<button class="btn btn-primary tablinks" onclick="openCity(event,'Trend_data')" id="defaultOpen3">Trend Data</button>
 </div>
 
 <div id="Incident_pivot" class="tabcontent">
@@ -1244,7 +1255,7 @@
 	<h3>Trend Data</h3>
 
 	<div class="col-lg-auto"><!--Trend Data incidents Report Table -->
-		<table class="table border">
+		<table id="table_with_data" class="table border">
 			<thead>
 				<tr class="table-success">
 					<th class="center">Incidents</th>
@@ -1611,7 +1622,7 @@ stacked: true // this also..
 </script>
 
 <script>
-	var myForm       = $('#rangeForm');
+var myForm = $('#rangeForm');
 var toggleMyForm = $('#toggleMyForm');
 
 toggleMyForm.on('click', function(){
@@ -1619,4 +1630,122 @@ toggleMyForm.on('click', function(){
     myForm.is(":visible") ? $(this).html('Hide') : $(this).html('Show');
 });
 </script>
+
+
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js">
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.0.37/jspdf.plugin.autotable.js">
+  </script> 
+ -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js'></script>
+
+
+<script>
+	var inc_img;
+    var sr_img;
+    var repo_img;
+    var trend_img;
+	//export page
+	$('#exportForm').click(function(){
+  
+  var pdf = new jsPDF('a', 'mm', 'a4');
+
+  inc();
+  sr();
+  repo();
+  trend();
+
+  // html2canvas($('#Sr_pivot'), {
+  //   onrendered: function(canvas) {
+  //   	secondPage = canvas.toDataURL('image/jpeg', 1.0);      
+  //   }
+  // });
+  
+  setTimeout(function(){
+    pdf.addImage(inc_img, 'JPEG', 5, 5, 200, 0);
+    pdf.addPage();
+    pdf.addImage(sr_img, 'JPEG', 5, 5, 200, 0);
+    pdf.addPage();
+    pdf.addImage(repo_img, 'JPEG', 5, 5, 200, 0);
+    pdf.addPage();
+    pdf.addImage(trend_img, 'JPEG', 5, 5, 200, 0);
+    pdf.save("export.pdf");
+  }, 150);
+ document.location.reload(true);
+});
+ 
+function inc()
+{
+	document.getElementById("defaultOpen").click();
+	document.getElementById('Incident_pivot').className = "tabcontent1";
+	html2canvas($('#Incident_pivot'), { //Incident_pivot
+    onrendered: function(canvas) {    	
+    	inc_img = canvas.toDataURL('image/jpeg', 1.0);
+    }
+  });
+}
+function sr()
+{
+	document.getElementById("defaultOpen1").click();
+	document.getElementById('Sr_pivot').className = "tabcontent1";
+	html2canvas($('#Sr_pivot'), { //Incident_pivot
+    onrendered: function(canvas) {    	
+    	sr_img = canvas.toDataURL('image/jpeg', 1.0);
+    }
+  });
+}
+function repo()
+{
+	document.getElementById("defaultOpen2").click();
+	document.getElementById('Report').className = "tabcontent1";
+	html2canvas($('#Report'), { //Incident_pivot
+    onrendered: function(canvas) {    	
+    	repo_img = canvas.toDataURL('image/jpeg', 1.0);
+    }
+  });
+}
+function trend()
+{
+	document.getElementById("defaultOpen3").click();
+	document.getElementById('Trend_data').className = "tabcontent1";
+	html2canvas($('#Trend_data'), { //Incident_pivot
+    onrendered: function(canvas) {    	
+    	trend_img = canvas.toDataURL('image/jpeg', 1.0);
+    }
+  });
+}
+	
+</script>
+
+
+
+
+<!-- <script>
+//export table to pdf
+function generatePDF() {
+  var doc = new jsPDF('l', 'pt');
+
+  var elem = document.getElementById('table_with_data');
+  var data = doc.autoTableHtmlToJson(elem);
+  doc.autoTable(data.columns, data.rows, {
+    margin: {left: 35},
+    theme: 'grid',
+    tableWidth: 'auto',
+    fontSize: 8,
+    overflow: 'linebreak',
+    }
+  );
+
+    
+  doc.save('Example_Table_To_PDF.pdf');
+}
+</script>
+ -->
+
 </html>
