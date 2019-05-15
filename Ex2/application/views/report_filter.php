@@ -19,7 +19,7 @@
 			border: 1px solid #ccc;
 			background-color: #f1f1f1;
 			width: 9%;
-			height: 300px;
+			height: 10%;
 		}
 
 		/* Style the buttons inside the tab */
@@ -99,8 +99,8 @@
 <div style="margin: 10px;
     
     text-align: right;" >
-	<a class="btn btn-success" id='exportForm'> Export page</a>
-	 <button onclick="generatePDF()">Export to PDF</button>
+	<button class="btn btn-primary" id='exportForm'>Export to PDF</button>
+	 
 </div>
 
 <div class="row">
@@ -127,6 +127,7 @@
 </div>
 
 <div id="Incident_pivot" class="tabcontent">
+	<h3>Incident Pivot</h3>
 	<div class="row">
 		<div class="col-lg-auto"> <!-- Assignee,Resolved,Closed,Total -->
 			<table class="table border">
@@ -540,11 +541,12 @@
 			</table>
 		</div>
 		<div class="col-lg-auto">	
-			<canvas id="bar-chart" width="800" height="450"></canvas>
+			<canvas id="chart_incident_pivot" width="800" height="450"></canvas>
 		</div>
 	</div>
 </div>
 <div id="Sr_pivot" class="tabcontent">
+	<h3>SR Pivot</h3>
 	<div class="row">
 		<div class="col-lg-auto"> <!-- Assignee,Closed,Resolved,Total -->
 			<table class="table border">
@@ -1135,12 +1137,12 @@
 			</table>
 		</div>
 		<div class="col-lg-auto">
-			<canvas id="ctx" width="700"></canvas>
+			<canvas id="chart_sr_pivot" width="700"></canvas>
 		</div>
 	</div>
 </div>
 <div id="Report" class="tabcontent">
-
+<h3>Reports</h3>
 	<div class="col-lg-auto"><!-- incidents Report Table -->
 		<table class="table border">
 			<thead>
@@ -1197,7 +1199,7 @@
 		</table>
 	</div>
 
-	<div class="col-lg-10"><!-- SR Report Table -->
+	<div class="col-lg-auto"><!-- SR Report Table -->
 		<table class="table border">
 			<thead>
 				<tr class="table-success">
@@ -1250,6 +1252,14 @@
 			?>			
 		</table>
 	</div>
+<div class="row col-lg-12">
+		<div class="col-lg-6">
+			<canvas id="chart_incident_report" width="700"></canvas>
+		</div>
+		<div class="col-lg-6">
+			<canvas id="chart_sr_report" width="700"></canvas>
+		</div>
+</div>
 </div>
 <div id="Trend_data" class="tabcontent">
 	<h3>Trend Data</h3>
@@ -1339,9 +1349,8 @@
 		}
 		?>			
 	</table>
-</div>
 
-
+	</div>
 	<div class="col-lg-auto"><!--Trend Data SR Report Table -->
 		<table class="table border">
 			<thead>
@@ -1431,8 +1440,6 @@
 		?>			
 	</table>
 </div>
-
-
 </div>
 <!-- <h4>
 <pre>
@@ -1443,10 +1450,8 @@ print_r($formdata);
 </h4> 
 -->
 
-
 </body>
-<script type="text/javascript">
-
+<script type="text/javascript"> //customise date range filter 
 	$(function() {
 		var start = moment().subtract(6, 'days');
 		var end = moment();
@@ -1474,11 +1479,10 @@ $('#reportrange').daterangepicker({
 
 cb(start, end);
 });
-
 </script>
 
 
-<script> //Tabs
+<script> //Tabs Functions
 	function openCity(evt, cityName) {
 		var i, tabcontent, tablinks;
 		tabcontent = document.getElementsByClassName("tabcontent");
@@ -1496,8 +1500,9 @@ cb(start, end);
 document.getElementById("defaultOpen").click();
 </script>
 
+
 <script> //Incident Pivot Chart
-	new Chart(document.getElementById("bar-chart"), {
+	new Chart(document.getElementById("chart_incident_pivot"), {
 		type: 'bar',
 				data: {
 labels: ['3 Days','4-6 Days','7-9 Days','more than 9 days'], // responsible for how many bars are gonna show on the chart
@@ -1559,7 +1564,7 @@ stacked: true // this also..
 </script>
 
 <script> //SR Pivote Chart
-	var chart = new Chart(ctx, {
+	var chart = new Chart(chart_sr_pivot, {
 		type: 'bar',
 		data: {
 labels: ['15-50 Days','51-70 Days','71-90 Days','more than 90 days'], // responsible for how many bars are gonna show on the chart
@@ -1603,7 +1608,6 @@ datasets: [{
 	backgroundColor: '#66aa00'
 },]
 },
-
 options: {
 	responsive: false,
 	legend: {
@@ -1621,7 +1625,131 @@ stacked: true // this also..
 });
 </script>
 
-<script>
+<script> //Incident Report Chart
+	new Chart(document.getElementById("chart_incident_report"), {
+		type: 'bar',
+				data: {
+labels: ['3 Days','4-6 Days','7-9 Days','more than 9 days'], // responsible for how many bars are gonna show on the chart
+// create 12 datasets, since we have 12 items
+// data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
+// put 0, if there is no data for the particular bar
+datasets: [{
+	label: 'Other Team/Group Dependency',
+	data: [<?php echo $i3_days_other_team;?>,
+	<?php echo $i4_6_days_other_team;?>,
+	<?php echo $i7_9_days_other_team;?>,
+	<?php echo $more_than_9_days_other_team?>],
+	backgroundColor: '#22aa99'							
+}, {
+	label: 'User Response Awaited',
+	data: [<?php echo $i3_days_user_response;?>,
+	<?php echo $i4_6_days_user_response;?>,
+	<?php echo $i7_9_days_user_response;?>,
+	<?php echo $more_than_9_days_user_response;?>],
+	backgroundColor: '#994499'														
+}, {
+	label: 'Vendor Dependency',
+	data: [<?php echo $i3_days_vendor_dependency;?>,
+	<?php echo $i4_6_days_vendor_dependency;?>,
+	<?php echo $i7_9_days_vendor_dependency;?>,
+	<?php echo $more_than_9_days_vendor_dependency;?>],
+	backgroundColor: '#316395'
+}, {
+	label: 'In Progress',
+	data: [<?php echo $i3_days_under_observation;?>,
+	<?php echo $i4_6_days_under_observation;?>,
+	<?php echo $i7_9_days_under_observation;?>,
+	<?php echo $more_than_9_days_under_observation;?>],
+	backgroundColor: '#b82e2e'														
+}, {
+	label: 'Under Observation',
+	data: [<?php echo $i3_days_in_progress;?>,
+	<?php echo $i4_6_days_in_progress;?>,
+	<?php echo $i7_9_days_in_progress;?>,
+	<?php echo $more_than_9_days_in_progress;?>],
+	backgroundColor: '#66aa00'
+},]
+},
+options: {
+	responsive: false,
+	legend: {
+position: 'right' // place legend on the right side of chart
+},
+scales: {
+	xAxes: [{
+stacked: true // this should be set to make the bars stacked
+}],
+yAxes: [{
+stacked: true // this also..
+}]
+}
+}
+	});
+</script>
+
+<script> //SR Report Chart
+	var chart = new Chart(chart_sr_report, {
+		type: 'bar',
+		data: {
+labels: ['15-50 Days','51-70 Days','71-90 Days','more than 90 days'], // responsible for how many bars are gonna show on the chart
+// create 12 datasets, since we have 12 items
+// data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
+// put 0, if there is no data for the particular bar
+datasets: [{
+	label: 'Other Team/Group Dependency',
+	data: [<?php echo $other_Team_15_50;?>,
+	<?php echo $other_Team_51_70;?>,
+	<?php echo $other_Team_71_90;?>,
+	<?php echo $other_Team_90;?>],
+	backgroundColor: '#22aa99'
+}, {
+	label: 'User Response Awaited',
+	data: [<?php echo $user_response_awaited_15_50;?>,
+	<?php echo $user_response_awaited_51_70;?>,
+	<?php echo $user_response_awaited_71_90;?>,
+	<?php echo $user_response_awaited_90;?>],
+	backgroundColor: '#994499'
+}, {
+	label: 'Vendor Dependency',
+	data: [<?php echo $vendor_dependency_15_50;?>,
+	<?php echo $vendor_dependency_51_70;?>,
+	<?php echo $vendor_dependency_71_90;?>,
+	<?php echo $vendor_dependency_90;?>],
+	backgroundColor: '#316395'
+}, {
+	label: 'In Progress',
+	data: [<?php echo $in_progress_15_50;?>,
+	<?php echo $in_progress_51_70;?>,
+	<?php echo $in_progress_71_90;?>,
+	<?php echo $in_progress_90;?>],
+	backgroundColor: '#b82e2e'
+}, {
+	label: 'Scheduled Ticket',
+	data: [<?php echo $scheduled_ticket_15_50;?>,
+	<?php echo $scheduled_ticket_51_70;?>,
+	<?php echo $scheduled_ticket_71_90;?>,
+	<?php echo $scheduled_ticket_90;?>],
+	backgroundColor: '#66aa00'
+},]
+},
+options: {
+	responsive: false,
+	legend: {
+position: 'right' // place legend on the right side of chart
+},
+scales: {
+	xAxes: [{
+stacked: true // this should be set to make the bars stacked
+}],
+yAxes: [{
+stacked: true // this also..
+}]
+}
+}
+});
+</script>
+
+<script> //Hide Buttion(for hidding range form) 
 var myForm = $('#rangeForm');
 var toggleMyForm = $('#toggleMyForm');
 
@@ -1632,21 +1760,10 @@ toggleMyForm.on('click', function(){
 </script>
 
 
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js">
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.0.37/jspdf.plugin.autotable.js">
-  </script> 
- -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js'></script>
-
-
-<script>
+<script> // Export PDF for all three tabs
 	var inc_img;
     var sr_img;
     var repo_img;
@@ -1660,12 +1777,6 @@ toggleMyForm.on('click', function(){
   sr();
   repo();
   trend();
-
-  // html2canvas($('#Sr_pivot'), {
-  //   onrendered: function(canvas) {
-  //   	secondPage = canvas.toDataURL('image/jpeg', 1.0);      
-  //   }
-  // });
   
   setTimeout(function(){
     pdf.addImage(inc_img, 'JPEG', 5, 5, 200, 0);
@@ -1694,7 +1805,7 @@ function sr()
 {
 	document.getElementById("defaultOpen1").click();
 	document.getElementById('Sr_pivot').className = "tabcontent1";
-	html2canvas($('#Sr_pivot'), { //Incident_pivot
+	html2canvas($('#Sr_pivot'), { //Sr_pivot
     onrendered: function(canvas) {    	
     	sr_img = canvas.toDataURL('image/jpeg', 1.0);
     }
@@ -1704,7 +1815,7 @@ function repo()
 {
 	document.getElementById("defaultOpen2").click();
 	document.getElementById('Report').className = "tabcontent1";
-	html2canvas($('#Report'), { //Incident_pivot
+	html2canvas($('#Report'), { //Report
     onrendered: function(canvas) {    	
     	repo_img = canvas.toDataURL('image/jpeg', 1.0);
     }
@@ -1714,7 +1825,7 @@ function trend()
 {
 	document.getElementById("defaultOpen3").click();
 	document.getElementById('Trend_data').className = "tabcontent1";
-	html2canvas($('#Trend_data'), { //Incident_pivot
+	html2canvas($('#Trend_data'), { //Trend_data
     onrendered: function(canvas) {    	
     	trend_img = canvas.toDataURL('image/jpeg', 1.0);
     }
@@ -1723,29 +1834,5 @@ function trend()
 	
 </script>
 
-
-
-
-<!-- <script>
-//export table to pdf
-function generatePDF() {
-  var doc = new jsPDF('l', 'pt');
-
-  var elem = document.getElementById('table_with_data');
-  var data = doc.autoTableHtmlToJson(elem);
-  doc.autoTable(data.columns, data.rows, {
-    margin: {left: 35},
-    theme: 'grid',
-    tableWidth: 'auto',
-    fontSize: 8,
-    overflow: 'linebreak',
-    }
-  );
-
-    
-  doc.save('Example_Table_To_PDF.pdf');
-}
-</script>
- -->
 
 </html>

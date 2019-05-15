@@ -23,6 +23,7 @@ class Report extends CI_Controller
     $data['insident_pivot_data']= null;
     $data['sr_pivot_data'] = null;
     $data['start_date'] = null;
+    $data['trend_data']= null;
     $data['end_date'] = null;
     $this->load->view('report_filter',$data);
   }
