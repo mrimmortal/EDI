@@ -8,10 +8,8 @@ class Report extends CI_Controller
   {
     parent::__construct();
     $this->load->model('Report_data_model');
-   // $this->load->library('excel');
-    
+   // $this->load->library('excel');    
   }
-  
 
   //Load Report_Filter View
   function index()

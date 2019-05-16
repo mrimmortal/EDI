@@ -35,14 +35,13 @@
 		</div>   	 	
     	<div id="container" class="col" align="center">
     		<a href="<?php echo base_url()."Report/index";?>">
-    			<button class="big-button" data-action="submit" style="margin: 75px auto;">
+    			<button class="big-button" data-action="submit" style="margin: 120px auto;">
     			Generate Report
     			</button>
     		</a>
 		</div>
   	</div>
-
-    
+ 
   </div>
 </div>	
 </body>

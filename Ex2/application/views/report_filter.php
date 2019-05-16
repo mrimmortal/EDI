@@ -1300,7 +1300,7 @@
 						?>   
 						<tr>
 							<td><?php echo $trend_data[0][$j];?></td>							
-							<td><?php echo $trend_data[0][$j+2][0]->New_Count; ?></td>
+							<td><?php echo $trend_data[0][$j+2][0]->New_Count;?></td>
 							<td><?php echo $trend_data[0][$j+2][0]->Resolved + $trend_data[0][$j+2][0]->Closed ; ?></td>
 							<td><?php 
 							if($trend_data[0][$j+2][0]->resolution_violation_no != 0 || $trend_data[0][$j+2][0]->resolution_violation_yes != 0)
@@ -1319,7 +1319,7 @@
 							<td><?php echo round($trend_data[0][$j+2][0]->Avg_mmtr,2); ?></td>
 							<td><?php echo $trend_data[0][$j+2][0]->Pending + $trend_data[0][$j+2][0]->In_Process; ?></td>
 							<td><?php echo 
-							$trend_data[0][$j+2][0]->i3_days_other_team
+							 $trend_data[0][$j+2][0]->i3_days_other_team
 							+$trend_data[0][$j+2][0]->i3_days_user_response
 							+$trend_data[0][$j+2][0]->i3_days_in_progress
 							+$trend_data[0][$j+2][0]->i3_days_under_observation
@@ -1440,6 +1440,14 @@
 		?>			
 	</table>
 </div>
+	<div class="row col-lg-12">
+		<div class="col-lg-6">
+			<canvas id="td_incident_chart" width="700"></canvas>
+		</div>
+		<div class="col-lg-6">
+			<canvas id="td_sr_chart" width="700"></canvas>
+		</div>
+	</div>
 </div>
 <!-- <h4>
 <pre>
@@ -1834,5 +1842,406 @@ function trend()
 	
 </script>
 
+<script> //Trend data Charts (incident)
+var td_in = document.getElementById('td_incident_chart').getContext("2d");
+var myChart = new Chart(td_in, {
+    type: 'line',
+    data: {
+        labels: ["New Tkts", "Resolved", "SLA", "MTTR", "Open", "Backlog"],
+        datasets: [{
+            label:'<?php echo $trend_data[0][0];?>',
+            borderColor: "#FF0000",
+            pointBorderColor: "	#FF0000",
+            pointBackgroundColor: "	#FF0000",
+            pointHoverBackgroundColor: "#80b6f4",
+            pointHoverBorderColor: "#80b6f4",
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: false,
+            borderWidth: 2,
+            data: 
+            [<?php echo $trend_data[0][0+2][0]->New_Count;?>,
+             <?php echo $trend_data[0][0+2][0]->Resolved + $trend_data[0][0+2][0]->Closed;?>,
+              <?php 
+							if($trend_data[0][0+2][0]->resolution_violation_no != 0 || $trend_data[0][0+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[0][0+2][0]->resolution_violation_no
+								/($trend_data[0][0+2][0]->resolution_violation_no
+									+$trend_data[0][0+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0);}
+								else
+								{
+									echo "0";
+								} 
+								?>,
+								<?php echo round($trend_data[0][0+2][0]->Avg_mmtr,2); ?>,
+								<?php echo $trend_data[0][0+2][0]->Pending + $trend_data[0][0+2][0]->In_Process; ?>,
+								 <?php echo 
+							 $trend_data[0][0+2][0]->i3_days_other_team
+							+$trend_data[0][0+2][0]->i3_days_user_response
+							+$trend_data[0][0+2][0]->i3_days_in_progress
+							+$trend_data[0][0+2][0]->i3_days_under_observation
+							+$trend_data[0][0+2][0]->i3_days_vendor_dependency
+							+$trend_data[0][0+2][0]->i4_6_days_other_team
+							+$trend_data[0][0+2][0]->i4_6_days_user_response
+							+$trend_data[0][0+2][0]->i4_6_days_in_progress
+							+$trend_data[0][0+2][0]->i4_6_days_under_observation
+							+$trend_data[0][0+2][0]->i4_6_days_vendor_dependency
+							+$trend_data[0][0+2][0]->i7_9_days_other_team
+							+$trend_data[0][0+2][0]->i7_9_days_user_response
+							+$trend_data[0][0+2][0]->i7_9_days_in_progress
+							+$trend_data[0][0+2][0]->i7_9_days_under_observation
+							+$trend_data[0][0+2][0]->i7_9_days_vendor_dependency
+							+$trend_data[0][0+2][0]->more_than_9_days_other_team
+							+$trend_data[0][0+2][0]->more_than_9_days_user_response
+							+$trend_data[0][0+2][0]->more_than_9_days_in_progress
+							+$trend_data[0][0+2][0]->more_than_9_days_under_observation
+							+$trend_data[0][0+2][0]->more_than_9_days_vendor_dependency;
+							?>]
+        },{
+            label:'<?php echo $trend_data[0][3];?>',
+            borderColor: "#FFA500",
+            pointBorderColor: "#FFA500",
+            pointBackgroundColor: "#FFA500",
+            pointHoverBackgroundColor: "#80b6f4",
+            pointHoverBorderColor: "#80b6f4",
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: false,
+            borderWidth: 2,
+            data: 
+            [<?php echo $trend_data[0][3+2][0]->New_Count;?>,
+             <?php echo $trend_data[0][3+2][0]->Resolved + $trend_data[0][3+2][0]->Closed;?>,
+              <?php 
+							if($trend_data[0][3+2][0]->resolution_violation_no != 0 || $trend_data[0][3+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[0][3+2][0]->resolution_violation_no
+								/($trend_data[0][3+2][0]->resolution_violation_no
+									+$trend_data[0][3+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0);}
+								else
+								{
+									echo "0";
+								} 
+								?>,
+								<?php echo round($trend_data[0][3+2][0]->Avg_mmtr,2); ?>,
+								<?php echo $trend_data[0][3+2][0]->Pending + $trend_data[0][3+2][0]->In_Process; ?>,
+								 <?php echo 
+							 $trend_data[0][3+2][0]->i3_days_other_team
+							+$trend_data[0][3+2][0]->i3_days_user_response
+							+$trend_data[0][3+2][0]->i3_days_in_progress
+							+$trend_data[0][3+2][0]->i3_days_under_observation
+							+$trend_data[0][3+2][0]->i3_days_vendor_dependency
+							+$trend_data[0][3+2][0]->i4_6_days_other_team
+							+$trend_data[0][3+2][0]->i4_6_days_user_response
+							+$trend_data[0][3+2][0]->i4_6_days_in_progress
+							+$trend_data[0][3+2][0]->i4_6_days_under_observation
+							+$trend_data[0][3+2][0]->i4_6_days_vendor_dependency
+							+$trend_data[0][3+2][0]->i7_9_days_other_team
+							+$trend_data[0][3+2][0]->i7_9_days_user_response
+							+$trend_data[0][3+2][0]->i7_9_days_in_progress
+							+$trend_data[0][3+2][0]->i7_9_days_under_observation
+							+$trend_data[0][3+2][0]->i7_9_days_vendor_dependency
+							+$trend_data[0][3+2][0]->more_than_9_days_other_team
+							+$trend_data[0][3+2][0]->more_than_9_days_user_response
+							+$trend_data[0][3+2][0]->more_than_9_days_in_progress
+							+$trend_data[0][3+2][0]->more_than_9_days_under_observation
+							+$trend_data[0][3+2][0]->more_than_9_days_vendor_dependency;
+							?>]
+        },{
+            label:'<?php echo $trend_data[0][6];?>',
+            borderColor: "#80b6f4",
+            pointBorderColor: "#80b6f4",
+            pointBackgroundColor: "#80b6f4",
+            pointHoverBackgroundColor: "#80b6f4",
+            pointHoverBorderColor: "#80b6f4",
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: false,
+            borderWidth: 2,
+            data: 
+            [<?php echo $trend_data[0][6+2][0]->New_Count;?>,
+             <?php echo $trend_data[0][6+2][0]->Resolved + $trend_data[0][6+2][0]->Closed;?>,
+              <?php 
+							if($trend_data[0][6+2][0]->resolution_violation_no != 0 || $trend_data[0][6+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[0][6+2][0]->resolution_violation_no
+								/($trend_data[0][6+2][0]->resolution_violation_no
+									+$trend_data[0][6+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0);}
+								else
+								{
+									echo "0";
+								} 
+								?>,
+								<?php echo round($trend_data[0][6+2][0]->Avg_mmtr,2); ?>,
+								<?php echo $trend_data[0][6+2][0]->Pending + $trend_data[0][6+2][0]->In_Process; ?>,
+								 <?php echo 
+							 $trend_data[0][6+2][0]->i3_days_other_team
+							+$trend_data[0][6+2][0]->i3_days_user_response
+							+$trend_data[0][6+2][0]->i3_days_in_progress
+							+$trend_data[0][6+2][0]->i3_days_under_observation
+							+$trend_data[0][6+2][0]->i3_days_vendor_dependency
+							+$trend_data[0][6+2][0]->i4_6_days_other_team
+							+$trend_data[0][6+2][0]->i4_6_days_user_response
+							+$trend_data[0][6+2][0]->i4_6_days_in_progress
+							+$trend_data[0][6+2][0]->i4_6_days_under_observation
+							+$trend_data[0][6+2][0]->i4_6_days_vendor_dependency
+							+$trend_data[0][6+2][0]->i7_9_days_other_team
+							+$trend_data[0][6+2][0]->i7_9_days_user_response
+							+$trend_data[0][6+2][0]->i7_9_days_in_progress
+							+$trend_data[0][6+2][0]->i7_9_days_under_observation
+							+$trend_data[0][6+2][0]->i7_9_days_vendor_dependency
+							+$trend_data[0][6+2][0]->more_than_9_days_other_team
+							+$trend_data[0][6+2][0]->more_than_9_days_user_response
+							+$trend_data[0][6+2][0]->more_than_9_days_in_progress
+							+$trend_data[0][6+2][0]->more_than_9_days_under_observation
+							+$trend_data[0][6+2][0]->more_than_9_days_vendor_dependency;
+							?>]
+        }]
+    },
+    options: {
+        legend: {
+            position: "bottom"
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "rgba(0,0,0,0.5)",
+                    fontStyle: "bold",
+                    beginAtZero: true,
+                    maxTicksLimit: 5,
+                    padding: 20
+                },
+                gridLines: {
+                    drawTicks: false,
+                    display: false
+                }
+
+            }],
+            xAxes: [{
+                gridLines: {
+                    zeroLineColor: "transparent"
+                },
+                ticks: {
+                    padding: 20,
+                    fontColor: "rgba(0,0,0,0.5)",
+                    fontStyle: "bold"
+                }
+            }]
+        }
+    }
+});
+</script> 
+<script>
+ //Trend data Charts (SR)
+var td_sr = document.getElementById('td_sr_chart').getContext("2d");
+var myChart = new Chart(td_sr, {
+    type: 'line',
+    data: {
+        labels: ["New Tkts", "Resolved", "SLA", "MTTR", "Open", "Backlog"],
+        datasets: [{
+            label:'<?php echo $trend_data[1][0];?>',
+            borderColor: "#FF0000",
+            pointBorderColor: "	#FF0000",
+            pointBackgroundColor: "	#FF0000",
+            pointHoverBackgroundColor: "#80b6f4",
+            pointHoverBorderColor: "#80b6f4",
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: false,
+            borderWidth: 2,
+          	data: 
+            [<?php echo $trend_data[1][0+2][0]->new_count;?>,
+             <?php echo $trend_data[1][0+2][0]->Resolved + $trend_data[1][0+2][0]->Closed;?>,
+              <?php 
+							if($trend_data[1][0+2][0]->resolution_violation_no != 0 || $trend_data[1][0+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[1][0+2][0]->resolution_violation_no
+								/($trend_data[1][0+2][0]->resolution_violation_no
+									+$trend_data[1][0+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0);}
+								else
+								{
+									echo "0";
+								} 
+								?>,
+								<?php echo round($trend_data[1][0+2][0]->Avg_mmtr,2); ?>,
+								<?php echo $trend_data[1][0+2][0]->Pending + $trend_data[1][0+2][0]->In_Process; ?>,
+								 <?php echo 
+							 $trend_data[1][0+2][0]->user_response_awaited_15_50
+							+$trend_data[1][0+2][0]->vendor_dependency_15_50
+							+$trend_data[1][0+2][0]->in_progress_15_50
+							+$trend_data[1][0+2][0]->scheduled_ticket_15_50
+							+$trend_data[1][0+2][0]->other_Team_51_70
+							+$trend_data[1][0+2][0]->user_response_awaited_51_70
+							+$trend_data[1][0+2][0]->vendor_dependency_51_70
+							+$trend_data[1][0+2][0]->in_progress_51_70
+							+$trend_data[1][0+2][0]->scheduled_ticket_51_70
+							+$trend_data[1][0+2][0]->other_Team_71_90
+							+$trend_data[1][0+2][0]->user_response_awaited_71_90
+							+$trend_data[1][0+2][0]->vendor_dependency_71_90
+							+$trend_data[1][0+2][0]->in_progress_71_90
+							+$trend_data[1][0+2][0]->scheduled_ticket_71_90
+							+$trend_data[1][0+2][0]->other_Team_90
+							+$trend_data[1][0+2][0]->user_response_awaited_90
+							+$trend_data[1][0+2][0]->vendor_dependency_90
+							+$trend_data[1][0+2][0]->in_progress_90
+							+$trend_data[1][0+2][0]->scheduled_ticket_90
+							+$trend_data[1][0+2][0]->other_Team_15_50;
+							?>]
+        },{
+            label:'<?php echo $trend_data[1][3];?>',
+            borderColor: "#FFA500",
+            pointBorderColor: "#FFA500",
+            pointBackgroundColor: "#FFA500",
+            pointHoverBackgroundColor: "#80b6f4",
+            pointHoverBorderColor: "#80b6f4",
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: false,
+            borderWidth: 2,
+            data: 
+            [<?php echo $trend_data[1][3+2][0]->new_count;?>,
+             <?php echo $trend_data[1][3+2][0]->Resolved + $trend_data[1][3+2][0]->Closed;?>,
+              <?php 
+							if($trend_data[1][3+2][0]->resolution_violation_no != 0 || $trend_data[1][3+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[1][3+2][0]->resolution_violation_no
+								/($trend_data[1][3+2][0]->resolution_violation_no
+									+$trend_data[1][3+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0);}
+								else
+								{
+									echo "0";
+								} 
+								?>,
+								<?php echo round($trend_data[1][3+2][0]->Avg_mmtr,2); ?>,
+								<?php echo $trend_data[1][3+2][0]->Pending + $trend_data[1][3+2][0]->In_Process; ?>,
+								 <?php echo 
+							 $trend_data[1][3+2][0]->user_response_awaited_15_50
+							+$trend_data[1][3+2][0]->vendor_dependency_15_50
+							+$trend_data[1][3+2][0]->in_progress_15_50
+							+$trend_data[1][3+2][0]->scheduled_ticket_15_50
+							+$trend_data[1][3+2][0]->other_Team_51_70
+							+$trend_data[1][3+2][0]->user_response_awaited_51_70
+							+$trend_data[1][3+2][0]->vendor_dependency_51_70
+							+$trend_data[1][3+2][0]->in_progress_51_70
+							+$trend_data[1][3+2][0]->scheduled_ticket_51_70
+							+$trend_data[1][3+2][0]->other_Team_71_90
+							+$trend_data[1][3+2][0]->user_response_awaited_71_90
+							+$trend_data[1][3+2][0]->vendor_dependency_71_90
+							+$trend_data[1][3+2][0]->in_progress_71_90
+							+$trend_data[1][3+2][0]->scheduled_ticket_71_90
+							+$trend_data[1][3+2][0]->other_Team_90
+							+$trend_data[1][3+2][0]->user_response_awaited_90
+							+$trend_data[1][3+2][0]->vendor_dependency_90
+							+$trend_data[1][3+2][0]->in_progress_90
+							+$trend_data[1][3+2][0]->scheduled_ticket_90
+							+$trend_data[1][3+2][0]->other_Team_15_50;
+							?>]
+        },{
+            label:'<?php echo $trend_data[1][6];?>',
+            borderColor: "#80b6f4",
+            pointBorderColor: "#80b6f4",
+            pointBackgroundColor: "#80b6f4",
+            pointHoverBackgroundColor: "#80b6f4",
+            pointHoverBorderColor: "#80b6f4",
+            pointBorderWidth: 2,
+            pointHoverRadius: 2,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: false,
+            borderWidth: 2,
+            data: 
+            [<?php echo $trend_data[1][6+2][0]->new_count;?>,
+             <?php echo $trend_data[1][6+2][0]->Resolved + $trend_data[1][6+2][0]->Closed;?>,
+              <?php 
+							if($trend_data[1][6+2][0]->resolution_violation_no != 0 || $trend_data[1][6+2][0]->resolution_violation_yes != 0)
+							{
+								$t_i_no_Total =
+								$trend_data[1][6+2][0]->resolution_violation_no
+								/($trend_data[1][6+2][0]->resolution_violation_no
+									+$trend_data[1][6+2][0]->resolution_violation_yes);
+								echo round($t_i_no_Total*100,0);}
+								else
+								{
+									echo "0";
+								} 
+								?>,
+								<?php echo round($trend_data[1][6+2][0]->Avg_mmtr,2); ?>,
+								<?php echo $trend_data[1][6+2][0]->Pending + $trend_data[1][6+2][0]->In_Process; ?>,
+								 <?php echo 
+							 $trend_data[1][6+2][0]->user_response_awaited_15_50
+							+$trend_data[1][6+2][0]->vendor_dependency_15_50
+							+$trend_data[1][6+2][0]->in_progress_15_50
+							+$trend_data[1][6+2][0]->scheduled_ticket_15_50
+							+$trend_data[1][6+2][0]->other_Team_51_70
+							+$trend_data[1][6+2][0]->user_response_awaited_51_70
+							+$trend_data[1][6+2][0]->vendor_dependency_51_70
+							+$trend_data[1][6+2][0]->in_progress_51_70
+							+$trend_data[1][6+2][0]->scheduled_ticket_51_70
+							+$trend_data[1][6+2][0]->other_Team_71_90
+							+$trend_data[1][6+2][0]->user_response_awaited_71_90
+							+$trend_data[1][6+2][0]->vendor_dependency_71_90
+							+$trend_data[1][6+2][0]->in_progress_71_90
+							+$trend_data[1][6+2][0]->scheduled_ticket_71_90
+							+$trend_data[1][6+2][0]->other_Team_90
+							+$trend_data[1][6+2][0]->user_response_awaited_90
+							+$trend_data[1][6+2][0]->vendor_dependency_90
+							+$trend_data[1][6+2][0]->in_progress_90
+							+$trend_data[1][6+2][0]->scheduled_ticket_90
+							+$trend_data[1][6+2][0]->other_Team_15_50;
+							?>]
+        }]
+    },
+    options: {
+        legend: {
+            position: "bottom"
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "rgba(0,0,0,0.5)",
+                    fontStyle: "bold",
+                    beginAtZero: true,
+                    maxTicksLimit: 5,
+                    padding: 20
+                },
+                gridLines: {
+                    drawTicks: false,
+                    display: false
+                }
+
+            }],
+            xAxes: [{
+                gridLines: {
+                    zeroLineColor: "transparent"
+                },
+                ticks: {
+                    padding: 20,
+                    fontColor: "rgba(0,0,0,0.5)",
+                    fontStyle: "bold"
+                }
+            }]
+        }
+    }
+});
+</script>
 
 </html>
